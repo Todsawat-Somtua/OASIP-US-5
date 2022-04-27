@@ -1,20 +1,21 @@
 <script setup>
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount } from 'vue'
 
-const eventsList = ref([]);
+const eventsList = ref([])
 
 // Create
 // Read
 const getEvent = async () => {
-  const res = await fetch("/api/events");
+  const res = await fetch('http://localhost:8080/api/events')
   if (res.status === 200) {
-    eventsList.value = await res.json();
-  } else console.log("error, cannot get data");
-};
+    eventsList.value = await res.json()
+    console.log(res)
+  } else console.log('error, cannot get data')
+}
 
 onBeforeMount(async () => {
-  await getEvent();
-});
+  await getEvent()
+})
 
 // Update
 // Delete
@@ -22,8 +23,8 @@ onBeforeMount(async () => {
 
 <template>
   <div>
-      <p v-if="eventsList === []">No schedule</p>
-      <p v-else>มีข้อมูลจ้า</p>
+    <p v-if="eventsList === []">No schedule</p>
+    <p v-else>มีข้อมูลจ้า</p>
   </div>
 </template>
 
