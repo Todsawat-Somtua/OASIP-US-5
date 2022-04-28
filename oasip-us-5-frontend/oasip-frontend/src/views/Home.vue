@@ -30,6 +30,19 @@ onBeforeMount(async () => {
     </div>
       <div class="flex justify-center text-7xl text-gray-400 mt-10" v-show="eventsList.length === 0">No schedule
     </div>
+    <div v-for="events in eventsList" class="grid-cols-2">
+    <div v-show="eventsList.length !== 0" class="max-w-sm rounded-lg text-red-300 border border-gray-200 dark:bg-gray-800 dark:border-gray-700 mt-20 ml-10">
+        <label>
+          <ul>
+            <li>ชื่อผู้จอง : {{events.bookingName}}</li>
+            <li>Description : {{events.eventCategory.eventCategoryDescription}}</li>
+          </ul>
+          
+          
+        </label>
+      
+      </div>
+    </div>
   
 </template>
 
