@@ -33,12 +33,14 @@ onBeforeMount(async () => {
 
   <!-- Show event -->
     <div v-for="events in eventsList" class="card-event">
-    <div v-show="eventsList.length !== 0" class="max-w-sm rounded-lg border border-gray-200 bg-gray-400 border-gray-700 mt-10 ml-10 p-10 inline-block">
+    <div v-show="eventsList.length !== 0" class="flex max-w-sm rounded-lg border border-gray-200 bg-gray-400 border-gray-700 mt-10 ml-10 p-10 items-stretch">
       
        <label>
           <ul>
             <li>ชื่อผู้จอง : {{events.bookingName}}</li>
+            <li>ชื่อหมวดหมู่ : {{events.eventCategory.eventCategoryName}}</li>
             <li>Description : {{events.eventCategory.eventCategoryDescription}}</li>
+            <li>Duration : {{events.eventCategory.eventDuration}}</li>
           </ul>
        </label>
       
