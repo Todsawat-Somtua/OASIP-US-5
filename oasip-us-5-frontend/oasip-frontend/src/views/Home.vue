@@ -1,5 +1,7 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
+import AddEventIconVue from '../components/AddEventIcon.vue';
+import AddEventIcon from '../components/AddEventIcon.vue';
 
 const eventsList = ref([])
 
@@ -22,9 +24,18 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div>
-    <div v-show="eventsList.length === 0">No schedule</div>
-  </div>
+  
+    <div class="flex justify-center mt-40 text-gray-400" v-show="eventsList.length === 0" @click="">
+      <AddEventIcon></AddEventIcon>
+    </div>
+      <div class="flex justify-center text-7xl text-gray-400 mt-10" v-show="eventsList.length === 0">No schedule
+    </div>
+  
 </template>
 
-<style></style>
+<style>
+*{
+  margin: 0;
+  padding: 0;
+}
+</style>
