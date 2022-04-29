@@ -2,7 +2,8 @@
 import { ref, onBeforeMount } from 'vue'
 import AddEventIconVue from '../components/AddEventIcon.vue';
 import AddEventIcon from '../components/AddEventIcon.vue';
-
+import moment from 'moment'
+import BaseButton from '../components/BaseButton.vue'
 const eventsList = ref([])
 
 // Create
@@ -33,15 +34,18 @@ onBeforeMount(async () => {
 
   <!-- Show event -->
     <div v-for="events in eventsList" class="card-event">
-    <div v-show="eventsList.length !== 0" class="flex max-w-sm rounded-lg border border-gray-200 bg-gray-400 border-gray-700 mt-10 ml-10 p-10 items-stretch">
+    <div v-show="eventsList.length !== 0" class="flex max-w-sm rounded-lg border border-gray-200 bg-gray-400 border-gray-700 mt-10 ml-20 p-8 ">
       
        <label>
           <ul>
             <li>ชื่อผู้จอง : {{events.bookingName}}</li>
             <li>ชื่อหมวดหมู่ : {{events.eventCategory.eventCategoryName}}</li>
-            <li>Description : {{events.eventCategory.eventCategoryDescription}}</li>
-            <li>Duration : {{events.eventCategory.eventDuration}}</li>
+            <li>Start Time : {{moment(events.eventStartTime).format('HH:mm , DD MMMM YYYY')}}</li>
+            <li>Duration : {{ events.eventCategory.eventDuration}} mins</li>
+            
           </ul>
+          
+          <base-button buttonName = 'Detail' @click="showDetail" />
        </label>
       
       </div>
@@ -56,5 +60,7 @@ onBeforeMount(async () => {
 }
 .card-event{
   display: inline-block;
+  width: 500px;
+  justify-items: center;
 }
 </style>

@@ -8,7 +8,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "moment": "^2.29.3",
     "vue": "^3.2.25",
+    "vue-moment": "^4.1.0",
     "vue-router": "^4.0.14"
   },
   "devDependencies": {
