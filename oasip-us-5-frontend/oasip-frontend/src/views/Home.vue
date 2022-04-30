@@ -38,7 +38,7 @@ onBeforeMount(async () => {
 
 <template>
   <!-- event empty -->
-  <div v-if="eventsGetted.value === 0">
+  <div v-if="eventsGetted.length === 0">
     <div class="flex justify-center mt-40 text-gray-400">
       <AddEventIcon />
     </div>
