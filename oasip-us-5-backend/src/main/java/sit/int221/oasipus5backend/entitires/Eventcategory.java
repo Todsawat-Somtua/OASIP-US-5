@@ -30,5 +30,5 @@ public class Eventcategory {
 //    @JsonIgnore
 //    @OneToMany(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "eventCategoryId")
-//    private Set<Event> event = new LinkedHashSet<>();
+//    private Set<Event> events = new LinkedHashSet<>();
 }

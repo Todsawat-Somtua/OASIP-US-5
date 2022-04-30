@@ -1,10 +1,7 @@
 package sit.int221.oasipus5backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sit.int221.oasipus5backend.entitires.Event;
 import sit.int221.oasipus5backend.repositories.EventRepository;
 import sit.int221.oasipus5backend.service.EventService;
@@ -21,4 +18,6 @@ public class EventController {
     public List<Event> getEvent(){
         return service.getEvent();
     }
+    @GetMapping("/{eventId}")
+    public Event getEventDetail(@PathVariable Integer eventId) { return service.getEventDetail(eventId);}
 }
