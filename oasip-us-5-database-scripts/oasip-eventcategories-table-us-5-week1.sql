@@ -1,9 +1,8 @@
-<<<<<<< HEAD
+
 
 use oasipdatabase;
 
-=======
->>>>>>> c27ded17289553f5804295472abb1962d1eb06b3
+
 insert into eventcategories
 value (1,'Project Management Clinic', 30, 'ตารางนัดหมายนี้ใช้สําหรับนัดหมาย project management clinic ในวิชา INT221 integrated project I ให้นักศึกษาเตรียมเอกสารที่เกี่ยวข้องเพื่อแสดงระหว่างขอคําปรึกษา');
 insert into eventcategories
@@ -15,8 +14,4 @@ value (4,'Client-side Clinic', 30, 'ตารางนัดหมายนี�
 insert into eventcategories (eventCategoryId,eventCategoryName,eventDuration)
 value (5,'Server-side Clinic', 30);
 
-<<<<<<< HEAD
 
-=======
-select * from eventCategories;
->>>>>>> c27ded17289553f5804295472abb1962d1eb06b3
