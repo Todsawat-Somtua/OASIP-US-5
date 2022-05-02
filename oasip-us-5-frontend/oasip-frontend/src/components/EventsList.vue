@@ -2,7 +2,6 @@
 import moment from "moment";
 import BaseButton from "../components/BaseButton.vue";
 
-
 defineEmits(["passEvent"]);
 defineProps({
   events: {
@@ -23,7 +22,7 @@ defineProps({
         <li>ชื่อผู้จอง : {{ event.bookingName }}</li>
         <li>ชื่อหมวดหมู่ : {{ event.eventCategory.eventCategoryName }}</li>
         <li>
-          Start Time :
+          Start Time : 
           {{ moment(event.eventStartTime).format("HH:mm , DD MMMM YYYY") }}
         </li>
         <li>Duration : {{ event.eventCategory.eventDuration }} mins</li>

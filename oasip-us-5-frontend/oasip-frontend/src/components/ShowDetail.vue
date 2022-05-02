@@ -1,6 +1,7 @@
 <script setup>
 import BaseButton from '../components/BaseButton.vue'
-import moment from 'moment'
+import moment from 'moment-timezone'
+
 
 defineEmits(['close'])
 defineProps({
@@ -8,6 +9,7 @@ defineProps({
         type: Object,
     }
 })
+
 
 </script>
  

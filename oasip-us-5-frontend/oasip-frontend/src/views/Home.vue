@@ -3,6 +3,7 @@ import { ref, onBeforeMount } from "vue";
 import AddEventIcon from "../components/AddEventIcon.vue";
 import EventsList from "../components/EventsList.vue";
 import ShowDetail from "../components/ShowDetail.vue";
+import moment from "moment";
 
 const eventsGetted = ref([]);
 const isModel = ref(false);
@@ -18,6 +19,7 @@ const currentEvent = (event) => {
   isModel.value = true;
 };
 
+
 // Create
 // Read
 const getEvent = async () => {
@@ -29,7 +31,10 @@ const getEvent = async () => {
 };
 
 onBeforeMount(async () => {
-  await getEvent();
+  await getEvent()
+  eventsGetted.value.sort((a, b) =>
+    moment(a.eventStartTime) - moment(b.eventStartTime)
+);
 });
 
 // Update
