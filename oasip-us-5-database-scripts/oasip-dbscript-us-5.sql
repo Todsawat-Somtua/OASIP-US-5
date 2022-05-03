@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `oasipdatabase`.`events` (
   `bookingName` VARCHAR(100) NOT NULL,
   `bookingEmail` VARCHAR(45) NOT NULL,
   `eventStartTime` DATETIME NOT NULL,
+  `eventDuration` INT NOT NULL,
   `eventNotes` VARCHAR(200) NULL,
   `eventCategoryId` INT NOT NULL,
   PRIMARY KEY (`eventId`, `eventCategoryId`),
