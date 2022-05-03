@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6ad13783a63287256685de2263f8d3d4fb72cc6b
 use oasipdatabase;
 insert into events (bookingName, bookingEmail, eventCategoryId, eventStartTime,eventDuration)
 value ('Somchai Jaidee(OR-7)', 'somchai.jai@mail.kmutt.ac.th', 2, '2022-5-23 13:30:00',30);
@@ -20,4 +23,8 @@ value ('สมเกียรติ ขยันเรียน กลุ่ม 
 -- value ('OM', 'Ommi@kmutt.ac.th', '5', '2022-1-1 10:00:00');
 -- select * from events;
 
+<<<<<<< HEAD
 
+=======
+select * from events;
+>>>>>>> 6ad13783a63287256685de2263f8d3d4fb72cc6b
