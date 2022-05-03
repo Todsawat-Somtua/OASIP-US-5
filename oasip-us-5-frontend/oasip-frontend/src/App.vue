@@ -5,7 +5,7 @@
   <div>
     <nav class="flex items-center justify-between flex-wrap bg-orange-500 p-3">
       <div id="router-container">
-        <router-link :to="{ name: 'Home' }" class="routers">Event Lists</router-link>
+        <router-link :to="{ name: 'Home' }" class="routers">Event List</router-link>
       </div>
     </nav>
     <div>
