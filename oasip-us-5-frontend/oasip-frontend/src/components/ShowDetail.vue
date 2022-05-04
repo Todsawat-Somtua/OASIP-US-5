@@ -25,7 +25,7 @@ defineProps({
                 <p>E-mail : {{eventDetail.bookingEmail}}</p>
                 <p>ชื่อหมวดหมู่ : {{eventDetail.eventCategory.eventCategoryName}}</p>
                 <p>Start Time : {{moment(eventDetail.eventStartTime).format('HH:mm , DD MMMM YYYY')}}</p>
-                <p>Duration : {{ eventDetail.eventCategory.eventDuration}} mins</p>  
+                <p>Duration : {{ eventDetail.eventDuration}} mins</p>  
                 <p v-if="eventDetail.eventNotes !== null" >Note : {{ eventDetail.eventNotes }}</p>
             </div>
             <div class=" text-black flex justify-end">

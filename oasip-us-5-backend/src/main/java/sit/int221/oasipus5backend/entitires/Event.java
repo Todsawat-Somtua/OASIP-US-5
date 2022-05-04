@@ -30,6 +30,9 @@ public class Event {
     @Column(name = "eventStartTime", nullable = false)
     private Date eventStartTime;
 
+    @Column(name = "eventDuration", nullable = false)
+    private Integer eventDuration;
+
     @Column(name = "eventNotes", length = 200)
     private String eventNotes;
 }

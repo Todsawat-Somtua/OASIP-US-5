@@ -25,7 +25,7 @@ defineProps({
           Start Time : 
           {{ moment(event.eventStartTime).format("HH:mm , DD MMMM YYYY") }}
         </li>
-        <li>Duration : {{ event.eventCategory.eventDuration }} mins</li>
+        <li>Duration : {{ event.eventDuration }} mins</li>
         <base-button buttonName="Detail" @click="$emit('passEvent', event)" />
       </ul>
     </div>

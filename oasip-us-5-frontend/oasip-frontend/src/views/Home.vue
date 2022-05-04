@@ -33,7 +33,7 @@ const getEvent = async () => {
 onBeforeMount(async () => {
   await getEvent()
   eventsGetted.value.sort((a, b) =>
-    moment(a.eventStartTime) - moment(b.eventStartTime)
+    moment(b.eventStartTime) - moment(a.eventStartTime)
 );
 });
 
