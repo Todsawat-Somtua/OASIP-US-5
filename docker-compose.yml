@@ -1,13 +1,10 @@
 version: "3"
 
 services:
-  database:
-    build: "./oasip-us-5-database"
+  db:
+    build: "./"
     volumes:
-      - "./oasip-us-5-database/data:/var/lib/mysql"
-      - "./oasip-us-5-database/scripts:/tests"
-    env_file:
-      - "./oasip-us-5-database/.env"
+      - "./db/data:/var/lib/mysql"
     environment:
       - TZ=Asia/Bangkok
       - LANG=C.UTF-8
@@ -18,19 +15,19 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - database
+      - db
     env_file:
       - "./backend/.env"
     restart: on-failure
     environment:
-      - MYSQL_USER=root
-      - MYSQL_HOST=database
+      - MYSQL_USER=us3admin
+      - MYSQL_HOST=db
       - MYSQL_PORT=3306
       - MYSQL_DATABASE=oasip
 
   nginx:
     build:
-      context: "./oasip-us-5-frontend/oasip-frontend"
+      context: "./frontend"
       args:
         - VITE_API_URL=http://localhost:8080/api
     ports:
