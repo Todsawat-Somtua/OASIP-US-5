@@ -11,6 +11,7 @@ const showDetail = ref({});
 const showModel = (e) => {
   isModel.value = e;
 };
+const webUrl = import.meta.env.PROD ? import.meta.env.VITE_API_URL : '/api';
 
 const currentEventDetail = ref({});
 
@@ -23,7 +24,7 @@ const currentEvent = (event) => {
 // Create
 // Read
 const getEvent = async () => {
-  const res = await fetch("http://localhost:8080/api/events");
+  const res = await fetch(`${webUrl}/events`);
   if (res.status === 200) {
     eventsGetted.value = await res.json();
     console.log(eventsGetted.value);
