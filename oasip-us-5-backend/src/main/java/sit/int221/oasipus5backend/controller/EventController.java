@@ -1,10 +1,11 @@
 package sit.int221.oasipus5backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import sit.int221.oasipus5backend.dtos.EventDTO;
 import sit.int221.oasipus5backend.entitires.Event;
-import sit.int221.oasipus5backend.repositories.EventRepository;
-import sit.int221.oasipus5backend.service.EventService;
+import sit.int221.oasipus5backend.services.EventService;
 
 import java.util.List;
 
@@ -14,10 +15,17 @@ import java.util.List;
 public class EventController {
     @Autowired
     private EventService service;
+    // GET
     @GetMapping("")
-    public List<Event> getEvent(){
-        return service.getEvent();
-    }
+    public List<EventDTO> getEvents(){ return service.getEvents(); }
     @GetMapping("/{eventId}")
-    public Event getEventDetail(@PathVariable Integer eventId) { return service.getEventDetail(eventId);}
+    public EventDTO getEventById(@PathVariable Integer eventId){
+        return service.getEventById(eventId);
+    }
+    // POST
+    @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Event createEvent(@RequestBody EventDTO newEvent){
+        return service.createEvent(newEvent);
+    }
 }

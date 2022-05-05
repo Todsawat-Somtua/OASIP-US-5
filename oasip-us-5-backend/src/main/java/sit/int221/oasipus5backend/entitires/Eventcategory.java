@@ -1,8 +1,8 @@
 package sit.int221.oasipus5backend.entitires;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -27,8 +27,6 @@ public class Eventcategory {
     @Column(name = "eventCategoryDescription", length = 300)
     private String eventCategoryDescription;
 
-//    @JsonIgnore
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "eventCategoryId")
-//    private Set<Event> events = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "eventCategory")
+    private Set<Event> events = new LinkedHashSet<>();
 }

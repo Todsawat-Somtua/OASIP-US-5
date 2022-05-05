@@ -1,7 +1,7 @@
 package sit.int221.oasipus5backend.entitires;
 
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -15,9 +15,7 @@ public class Event {
     @Id
     @Column(name = "eventId", nullable = false)
     private Integer eventId;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "eventCategoryId")
     private Eventcategory eventCategory;
 
