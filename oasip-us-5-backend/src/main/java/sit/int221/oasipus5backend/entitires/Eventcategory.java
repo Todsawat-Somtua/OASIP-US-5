@@ -16,7 +16,7 @@ import java.util.Set;
 public class Eventcategory {
     @Id
     @Column(name = "eventCategoryId", nullable = false)
-    private Integer id;
+    private Integer eventCategoryId;
 
     @Column(name = "eventCategoryName", nullable = false, length = 100)
     private String eventCategoryName;

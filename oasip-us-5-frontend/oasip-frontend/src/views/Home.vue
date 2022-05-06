@@ -3,6 +3,7 @@ import { ref, onBeforeMount } from "vue";
 import AddEventIcon from "../components/AddEventIcon.vue";
 import EventsList from "../components/EventsList.vue";
 import ShowDetail from "../components/ShowDetail.vue";
+import AddEvent from "../components/AddEvent.vue";
 import moment from "moment";
 
 const eventsGetted = ref([]);
@@ -11,9 +12,10 @@ const showDetail = ref({});
 const showModel = (e) => {
   isModel.value = e;
 };
-const webUrl = import.meta.env.PROD ? import.meta.env.VITE_API_URL : '/api';
-
+const isAddEvent = ref(false)
+const webUrl = import.meta.env.PROD ? import.meta.env.VITE_API_URL : 'http://localhost:8080/api';
 const currentEventDetail = ref({});
+
 
 const currentEvent = (event) => {
   currentEventDetail.value = event;
@@ -22,7 +24,28 @@ const currentEvent = (event) => {
 
 
 // Create
+const newestEvent = ref({})
+const createNewEvent = async (newEvent) => {
+  if (newEvent.name === undefined || newEvent.genre === undefined) {
+    alert('please insert data')
+  } else {
+    const res = await fetch(`${webUrl}/events`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({ bookingName: newEvent.bookingName , bookingEmail : newEvent.bookingEmail  , eventStartTime: newEvent.eventStartTime, eventNotes:newEvent.eventNotes,eventCategory:newEvent.eventCategory})
+    })
+    if(res.status === 201) {
+    const addedEvent = await res.json()
+    eventsGetted.value.push(addedEvent)
+    alert('Added Successfully')
+    } else ('error, cannot added')
+    newestEvent.value = {}
+  }
+}
 // Read
+const eventCategoriesGetter = ref([])
 const getEvent = async () => {
   const res = await fetch(`${webUrl}/events`);
   if (res.status === 200) {
@@ -30,9 +53,17 @@ const getEvent = async () => {
     console.log(eventsGetted.value);
   } else console.log("error, cannot get data");
 };
+const getEventCategory = async () => {
+  const res = await fetch(`${webUrl}/eventCategories`)
+  if (res.status === 200) {
+    eventCategoriesGetter.value = await res.json()
+    console.log(eventCategoriesGetter.value)
+  } else console.log("error, cannot get data")
+}
 
 onBeforeMount(async () => {
   await getEvent()
+  await getEventCategory()
   eventsGetted.value.sort((a, b) =>
     moment(b.eventStartTime) - moment(a.eventStartTime)
 );
@@ -43,6 +74,12 @@ onBeforeMount(async () => {
 </script>
 
 <template>
+<div class="grid justify-items-end w-px">
+  <AddEventIcon @click="isAddEvent =! isAddEvent"/>
+</div>
+  <div v-show="isAddEvent">
+    <add-event :events="eventsGetted" :eventCategories="eventCategoriesGetter"></add-event>
+  </div>
   <!-- event empty -->
   <div v-if="eventsGetted.length === 0">
     <div class="flex justify-center mt-40 text-gray-400">

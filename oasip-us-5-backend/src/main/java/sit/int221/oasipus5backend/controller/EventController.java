@@ -13,11 +13,11 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/events")
 public class EventController {
-    @Autowired
-    private EventService service;
+    @Autowired private EventService service;
     // GET
     @GetMapping("")
     public List<EventDTO> getEvents(){ return service.getEvents(); }
+
     @GetMapping("/{eventId}")
     public EventDTO getEventById(@PathVariable Integer eventId){
         return service.getEventById(eventId);

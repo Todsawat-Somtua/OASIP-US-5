@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class EventDTO {
     private Integer eventId;
-    private Integer eventCategoryId;
+    private EventCategoryDTO eventCategory;
     private String bookingName;
     private String bookingEmail;
     private Date eventStartTime;
