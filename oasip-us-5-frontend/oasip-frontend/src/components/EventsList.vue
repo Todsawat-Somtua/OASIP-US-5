@@ -2,7 +2,7 @@
 import moment from "moment";
 import BaseButton from "../components/BaseButton.vue";
 
-defineEmits(["passEvent"]);
+defineEmits(["passEvent,deleteEvent"]);
 defineProps({
   events: {
     type: Array,
@@ -27,6 +27,7 @@ defineProps({
         </li>
         <li>Duration : {{ event.eventDuration }} mins</li>
         <base-button buttonName="Detail" @click="$emit('passEvent', event)" />
+        <base-button buttonName="Delete" @click="$emit('deleteEvent',eventId)" class="ml-3"/>
       </ul>
     </div>
   </div>

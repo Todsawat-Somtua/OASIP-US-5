@@ -12,6 +12,9 @@ const showDetail = ref({});
 const showModel = (e) => {
   isModel.value = e;
 };
+const showAddEvent = (e) => {
+  isAddEvent.value = e;
+};
 const isAddEvent = ref(false)
 const webUrl = import.meta.env.PROD ? import.meta.env.VITE_API_URL : 'http://localhost:8080/api';
 const currentEventDetail = ref({});
@@ -71,14 +74,28 @@ onBeforeMount(async () => {
 
 // Update
 // Delete
+const removeEvent = async (deleteEventId) => {
+  if (confirm(`Do you want to delete event-id: ${deleteEventId} `) == true) {
+    const res = await fetch(`${webUrl}/events${deleteEventId}`, {
+    method: 'DELETE'
+    })
+    if (res.status === 200) {
+      eventsGetted.value = eventsGetted.value.filter((event) => event.id !== deleteEventId)
+      console.log('deleted successfully')
+    } else console.log('error, cannot delete data')
+  } else {
+    console.log('cancel')
+  }
+}
+
 </script>
 
 <template>
-<div class="grid justify-items-end w-px">
+<div class="grid justify-items-end" v-show="eventsGetted.length !== 0">
   <AddEventIcon @click="isAddEvent =! isAddEvent"/>
 </div>
   <div v-show="isAddEvent">
-    <add-event :events="eventsGetted" :eventCategories="eventCategoriesGetter"></add-event>
+    <add-event :events="eventsGetted" :eventCategories="eventCategoriesGetter" @close="showAddEvent"></add-event>
   </div>
   <!-- event empty -->
   <div v-if="eventsGetted.length === 0">
@@ -91,7 +108,7 @@ onBeforeMount(async () => {
   </div>
   <!-- Show event -->
   <div v-else>
-    <events-list :events="eventsGetted" @passEvent="currentEvent" />
+    <events-list :events="eventsGetted" @passEvent="currentEvent" @delectEvent="removeEvent" />
   </div>
   <div v-if="isModel">
     <show-detail :eventDetail="currentEventDetail" @close="showModel" />
