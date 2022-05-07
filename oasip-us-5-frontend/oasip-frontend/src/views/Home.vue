@@ -4,6 +4,7 @@ import AddEventIcon from "../components/AddEventIcon.vue";
 import EventsList from "../components/EventsList.vue";
 import ShowDetail from "../components/ShowDetail.vue";
 import AddEvent from "../components/AddEvent.vue";
+import BaseButton from "../components/BaseButton.vue";
 import moment from "moment";
 
 const eventsGetted = ref([]);
@@ -76,7 +77,7 @@ onBeforeMount(async () => {
 // Delete
 const removeEvent = async (deleteEventId) => {
   if (confirm(`Do you want to delete event-id: ${deleteEventId} `) == true) {
-    const res = await fetch(`${webUrl}/events${deleteEventId}`, {
+    const res = await fetch(`${webUrl}/events/${deleteEventId}`, {
     method: 'DELETE'
     })
     if (res.status === 200) {
@@ -99,8 +100,8 @@ const removeEvent = async (deleteEventId) => {
   </div>
   <!-- event empty -->
   <div v-if="eventsGetted.length === 0">
-    <div class="flex justify-center mt-40 text-gray-400">
-      <AddEventIcon />
+    <div class="flex justify-center mt-40 text-gray-400" >
+      <base-button buttonName="Add Event" @click="isAddEvent =! isAddEvent"/>
     </div>
     <div class="flex justify-center text-7xl text-gray-400 mt-10">
       No schedule
@@ -108,7 +109,7 @@ const removeEvent = async (deleteEventId) => {
   </div>
   <!-- Show event -->
   <div v-else>
-    <events-list :events="eventsGetted" @passEvent="currentEvent" @delectEvent="removeEvent" />
+    <events-list :events="eventsGetted" @passEvent="currentEvent" @deleteEvent="removeEvent" />
   </div>
   <div v-if="isModel">
     <show-detail :eventDetail="currentEventDetail" @close="showModel" />
