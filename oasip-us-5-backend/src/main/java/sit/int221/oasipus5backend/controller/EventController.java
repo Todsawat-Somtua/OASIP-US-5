@@ -16,7 +16,7 @@ public class EventController {
     @Autowired private EventService service;
     // GET
     @GetMapping("")
-    public List<EventDTO> getEvents(){ return service.getEvents(); }
+    public List<Event> getEvents(){ return service.getEvents(); }
 
     @GetMapping("/{eventId}")
     public EventDTO getEventById(@PathVariable Integer eventId){
@@ -25,7 +25,13 @@ public class EventController {
     // POST
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Event createEvent(@RequestBody EventDTO newEvent){
+//    public Event createEvent(@RequestBody EventDTO newEvent){
+//        return service.createEvent(newEvent);
+//    }
+    public Event createEvent(@RequestBody Event newEvent){
         return service.createEvent(newEvent);
     }
+    // Delete
+    @DeleteMapping("/{eventId}")
+    public void deleteEvent(@PathVariable Integer eventId) { service.deleteEvent(eventId); }
 }

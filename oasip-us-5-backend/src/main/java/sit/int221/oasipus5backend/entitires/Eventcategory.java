@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -13,7 +12,7 @@ import java.util.Set;
 @Setter
 @Getter
 @Table(name = "eventcategories")
-public class Eventcategory {
+public class EventCategory {
     @Id
     @Column(name = "eventCategoryId", nullable = false)
     private Integer eventCategoryId;
@@ -27,6 +26,7 @@ public class Eventcategory {
     @Column(name = "eventCategoryDescription", length = 300)
     private String eventCategoryDescription;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "eventCategory")
     private Set<Event> events = new LinkedHashSet<>();
 }
