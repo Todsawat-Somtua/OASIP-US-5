@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
 import java.util.Date;
 
 @Getter
@@ -17,5 +18,4 @@ public class EventDTO {
     private String bookingEmail;
     private Date eventStartTime;
     private String eventNotes;
-    private Integer eventDuration;
 }

@@ -25,10 +25,7 @@ public class EventController {
     // POST
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-//    public Event createEvent(@RequestBody EventDTO newEvent){
-//        return service.createEvent(newEvent);
-//    }
-    public Event createEvent(@RequestBody Event newEvent){
+    public Event createEvent(@RequestBody EventDTO newEvent){
         return service.createEvent(newEvent);
     }
     // Delete

@@ -3,6 +3,7 @@ package sit.int221.oasipus5backend.entitires;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.Date;
 
 @Entity
@@ -11,6 +12,7 @@ import java.util.Date;
 @Table(name = "events")
 public class Event {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "eventId", nullable = false)
     private Integer eventId;
     @ManyToOne

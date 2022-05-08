@@ -28,14 +28,18 @@ public class EventService {
         return modelMapper.map(events, EventDTO.class);
     }
     // POST
-//    public Event createEvent(EventDTO newEvent){
-//        Event evt = modelMapper.map(newEvent,Event.class);
-//        evt.setEventCategory(categoryRepository.getById(newEvent.getEventCategoryId()));
-//        return repository.saveAndFlush(evt);
-//    }
-    public Event createEvent(Event newEvent){
-        return repository.saveAndFlush(newEvent);
+    public Event createEvent(EventDTO newEvent){
+        Event evt = modelMapper.map(newEvent,Event.class);
+        EventCategory eventCategory = categoryRepository.findById(evt.getEventCategory().getEventCategoryId())
+                        .orElseThrow(() -> new ResponseStatusException(
+                                HttpStatus.NOT_FOUND, "Eventcategory" +
+                                evt.getEventCategory().getEventCategoryId() + " Id Does not exist"));
+        evt.setEventCategory(eventCategory);
+        evt.setEventDuration(eventCategory.getEventDuration());
+        evt.setEventId(null);
+        return repository.saveAndFlush(evt);
     }
+
     // Delete
     public void deleteEvent(Integer eventId){
         repository.findById(eventId).orElseThrow(
