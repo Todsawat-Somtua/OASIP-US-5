@@ -9,6 +9,7 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
+@ToString
 @Table(name = "events")
 public class Event {
     @Id
@@ -26,7 +27,7 @@ public class Event {
     private String bookingEmail;
 
     @Column(name = "eventStartTime", nullable = false)
-    private Date eventStartTime;
+    private Instant eventStartTime;
 
     @Column(name = "eventDuration", nullable = false)
     private Integer eventDuration;

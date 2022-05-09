@@ -14,8 +14,8 @@ defineProps({
   <!-- Show event -->
   <div class="grid grid-cols-4">
     <div
-      v-for="(event, eventId) in events"
-      :key="eventId"
+      v-for="event in events"
+      :key="event.eventId"
       class="flex max-w-sm rounded-lg border border-gray-200 bg-gray-400 border-gray-700 mt-10 mx-2 p-8"
     >
       <ul>
@@ -27,7 +27,7 @@ defineProps({
         </li>
         <li>Duration : {{ event.eventDuration }} mins</li>
         <base-button buttonName="Detail" @click="$emit('passEvent', event)" />
-        <base-button buttonName="Delete" @click="$emit('deleteEvent',eventId)" class="ml-3"/>
+        <base-button buttonName="Delete" @click="$emit('deleteEvent',event.eventId)" class="ml-3"/>
       </ul>
     </div>
   </div>

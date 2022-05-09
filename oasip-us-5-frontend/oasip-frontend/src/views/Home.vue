@@ -10,13 +10,15 @@ import moment from "moment";
 const eventsGetted = ref([]);
 const isModel = ref(false);
 const showDetail = ref({});
+const isAddEvent = ref(false);
+
 const showModel = (e) => {
   isModel.value = e;
 };
 const showAddEvent = (e) => {
   isAddEvent.value = e;
 };
-const isAddEvent = ref(false);
+
 const webUrl = import.meta.env.PROD
   ? import.meta.env.VITE_API_URL
   : "http://localhost:8080/api";
@@ -30,40 +32,34 @@ const currentEvent = (event) => {
 // Create
 const newestEvent = ref({});
 const createNewEvent = async (newEvent) => {
-  console.log(newEvent.bookingName)
-    console.log(newEvent.bookingEmail)
-      console.log(newEvent.eventStartTime)
-        console.log(newEvent.eventCategoryId)
-                console.log(newEvent.eventNotes)
-}
-// const createNewEvent = async (newEvent) => {
-//   if (
-//     newEvent.bookingName === undefined ||
-//     newEvent.bookingEmail === undefined
-//   ) {
-//     alert("please insert data");
-//   } else {
-//     const res = await fetch(`${webUrl}/events`, {
-//       method: "POST",
-//       headers: {
-//         "content-type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         bookingName: newEvent.bookingName,
-//         bookingEmail: newEvent.bookingEmail,
-//         eventStartTime: newEvent.eventStartTime,
-//         eventNotes: newEvent.eventNotes,
-//         eventCategoryId: newEvent.eventCategoryId,
-//       }),
-//     });
-//     if (res.status === 201) {
-//       const addedEvent = await res.json();
-//       eventsGetted.value.push(addedEvent);
-//       alert("Added Successfully");
-//     } else "error, cannot added";
-//     newestEvent.value = {};
-//   }
-// };
+  if (
+    newEvent.bookingName === undefined ||
+    newEvent.bookingEmail === undefined
+  ) {
+    alert("please insert data");
+  } else {
+    const res = await fetch(`${webUrl}/events`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+          bookingName: newEvent.bookingName,
+          bookingEmail: newEvent.bookingEmail,
+          eventStartTime: newEvent.eventStartTime,
+          eventNotes: newEvent.eventNotes,
+          eventCategoryId: newEvent.eventCategoryId,
+      }),
+    });
+    if (res.status === 201) {
+      const addedEvent = await res.json();
+      eventsGetted.value.push(addedEvent);
+      alert("Added Successfully");
+      isAddEvent.value = false
+    } else "error, cannot added";
+      newestEvent.value = {};
+  }
+};
 // Read
 const eventCategoriesGetter = ref([]);
 const getEvent = async () => {
@@ -72,6 +68,7 @@ const getEvent = async () => {
     eventsGetted.value = await res.json();
     console.log(eventsGetted.value);
   } else console.log("error, cannot get data");
+  console.log(event);
 };
 const getEventCategory = async () => {
   const res = await fetch(`${webUrl}/eventCategories`);
@@ -79,6 +76,7 @@ const getEventCategory = async () => {
     eventCategoriesGetter.value = await res.json();
     console.log(eventCategoriesGetter.value);
   } else console.log("error, cannot get data");
+  console.log(event)
 };
 
 onBeforeMount(async () => {
@@ -92,14 +90,12 @@ onBeforeMount(async () => {
 // Update
 // Delete
 const removeEvent = async (deleteEventId) => {
-  if (confirm(`Do you want to delete event-id: ${deleteEventId} `) == true) {
+  if (confirm('Are you sure to delete') == true) {
     const res = await fetch(`${webUrl}/events/${deleteEventId}`, {
       method: "DELETE",
     });
     if (res.status === 200) {
-      eventsGetted.value = eventsGetted.value.filter(
-        (event) => event.id !== deleteEventId
-      );
+      eventsGetted.value = eventsGetted.value.filter((event) => event.eventId !== deleteEventId);
       console.log("deleted successfully");
     } else console.log("error, cannot delete data");
   } else {
@@ -110,14 +106,15 @@ const removeEvent = async (deleteEventId) => {
 
 <template>
   <div class="grid justify-items-end" v-show="eventsGetted.length !== 0">
-    <AddEventIcon @click="isAddEvent = !isAddEvent" />
+    <base-button buttonName="Add Event" class="mr-3" @click="isAddEvent = !isAddEvent" />
   </div>
   <div v-show="isAddEvent">
     <add-event
-      :events="eventsGetted"
+      :events="newestEvent"
       :eventCategories="eventCategoriesGetter"
       @close="showAddEvent"
       @addEvent="createNewEvent"
+      
     ></add-event>
   </div>
   <!-- event empty -->

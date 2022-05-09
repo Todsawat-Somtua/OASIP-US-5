@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import moment from "moment";
 import BaseButton from "../components/BaseButton.vue";
+
 defineEmits(["close, addEvent"]);
 const props = defineProps({
   events: {
@@ -18,7 +19,7 @@ const newEvent = computed(() => {
   return {
     bookingName: props.events.bookingName,
     bookingEmail: props.events.bookingEmail,
-    eventStartTime: props.events.eventStartTime === undefined ? moment().utc().format('YYYY-MM-DDTHH:mm'): props.events.eventStartTime,
+    eventStartTime: props.events.eventStartTime === undefined ? moment().format('YYYY-MM-DDTHH:mm'): props.events.eventStartTime,
     eventNotes: props.events.eventNotes,
     eventCategoryId: props.events.eventCategoryId,
   };
@@ -57,7 +58,7 @@ const newEvent = computed(() => {
             >
               <option
                 v-for="eventCategory in eventCategories"
-                :value="eventCategory"
+                :value="eventCategory.eventCategoryId"
               >
                 {{ eventCategory.eventCategoryName }}
               </option>
@@ -87,7 +88,7 @@ const newEvent = computed(() => {
                 bookingName: newEvent.bookingName,
                 bookingEmail: newEvent.bookingEmail,
                 eventCategoryId: newEvent.eventCategoryId,
-                eventStartTime: newEvent.eventStartTime,
+                eventStartTime: moment(newEvent.eventStartTime).utc().format(),
                 eventNotes: newEvent.eventNotes
               })
             "
