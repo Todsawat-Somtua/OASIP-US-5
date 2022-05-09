@@ -9,12 +9,12 @@ services:
     ports:
       - '3306:3306'
     volumes:
-      - ./oasip-us-5-database:/docker-entrypoint-initdb.d/
+      - ./oasip-us-5-database/script:/docker-entrypoint-initdb.d/
 
   spring:
     build: ./oasip-us-5-backend
-    ports:
-      - "8080:8080"
+    # ports:
+    #   - "8080:8080"
     depends_on:
       - db
     restart: on-failure
@@ -33,7 +33,7 @@ services:
     build: 
       context: "./oasip-us-5-frontend/oasip-frontend"
       args:
-        - VITE_API_URL=http://ip21us5.sit.kmutt.ac.th:8080/api
+        - VITE_API_URL=/us5/api
     ports:
       - "80:80"
     depends_on:
