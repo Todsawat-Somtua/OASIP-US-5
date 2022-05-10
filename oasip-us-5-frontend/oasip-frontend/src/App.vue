@@ -1,11 +1,12 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
   <div>
     <nav class="flex items-center justify-between flex-wrap bg-orange-500 p-3">
       <div id="router-container">
-        <router-link :to="{ name: 'Home' }" class="routers">Event List</router-link>
+        <router-link :to="{ name: 'Home' }" class="routers"
+          >Event List</router-link
+        >
       </div>
     </nav>
     <div>
@@ -19,9 +20,9 @@
 .routers {
   margin: 10px 10px;
 }
-#router-container{
+#router-container {
   font-size: 45px;
-  font-style:normal;
+  font-style: normal;
   color: white;
   font-family: 'Libre Bodoni', serif;
 }

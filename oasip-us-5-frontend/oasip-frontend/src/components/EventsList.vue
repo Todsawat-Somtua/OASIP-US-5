@@ -1,14 +1,14 @@
 <script setup>
-import moment from "moment";
-import BaseButton from "../components/BaseButton.vue";
+import moment from 'moment'
+import BaseButton from '../components/BaseButton.vue'
 
-defineEmits(["passEvent,deleteEvent"]);
+defineEmits(['passEvent,deleteEvent'])
 defineProps({
   events: {
     type: Array,
     require: true,
   },
-});
+})
 </script>
 <template>
   <!-- Show event -->
@@ -22,12 +22,16 @@ defineProps({
         <li>ชื่อผู้จอง : {{ event.bookingName }}</li>
         <li>ชื่อหมวดหมู่ : {{ event.eventCategory.eventCategoryName }}</li>
         <li>
-          Start Time : 
-          {{ moment(event.eventStartTime).format("HH:mm , DD MMMM YYYY") }}
+          Start Time :
+          {{ moment(event.eventStartTime).format('HH:mm , DD MMMM YYYY') }}
         </li>
         <li>Duration : {{ event.eventDuration }} mins</li>
         <base-button buttonName="Detail" @click="$emit('passEvent', event)" />
-        <base-button buttonName="Delete" @click="$emit('deleteEvent',event.eventId)" class="ml-3"/>
+        <base-button
+          buttonName="Delete"
+          @click="$emit('deleteEvent', event.eventId)"
+          class="ml-3"
+        />
       </ul>
     </div>
   </div>

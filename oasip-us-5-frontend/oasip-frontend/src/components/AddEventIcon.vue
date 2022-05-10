@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: "IcSharpAdd",
-};
+  name: 'IcSharpAdd',
+}
 </script>

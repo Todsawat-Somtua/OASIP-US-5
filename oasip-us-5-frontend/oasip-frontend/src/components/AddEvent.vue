@@ -1,9 +1,9 @@
 <script setup>
-import { computed } from "vue";
-import moment from "moment";
-import BaseButton from "../components/BaseButton.vue";
+import { computed } from 'vue'
+import moment from 'moment'
+import BaseButton from '../components/BaseButton.vue'
 
-defineEmits(["close, addEvent"]);
+defineEmits(['close, addEvent'])
 const props = defineProps({
   events: {
     type: Array,
@@ -13,17 +13,20 @@ const props = defineProps({
     type: Array,
     require: true,
   },
-});
+})
 
 const newEvent = computed(() => {
   return {
     bookingName: props.events.bookingName,
     bookingEmail: props.events.bookingEmail,
-    eventStartTime: props.events.eventStartTime === undefined ? moment().format('YYYY-MM-DDTHH:mm'): props.events.eventStartTime,
+    eventStartTime:
+      props.events.eventStartTime === undefined
+        ? moment().format('YYYY-MM-DDTHH:mm')
+        : props.events.eventStartTime,
     eventNotes: props.events.eventNotes,
     eventCategoryId: props.events.eventCategoryId,
-  };
-});
+  }
+})
 </script>
 
 <template>
@@ -57,8 +60,9 @@ const newEvent = computed(() => {
               v-model="newEvent.eventCategoryId"
             >
               <option
-                v-for="eventCategory in eventCategories"
+                v-for="(eventCategory, eventCategoryId) in eventCategories"
                 :value="eventCategory.eventCategoryId"
+                :key="eventCategoryId"
               >
                 {{ eventCategory.eventCategoryName }}
               </option>
@@ -89,7 +93,7 @@ const newEvent = computed(() => {
                 bookingEmail: newEvent.bookingEmail,
                 eventCategoryId: newEvent.eventCategoryId,
                 eventStartTime: moment(newEvent.eventStartTime).utc().format(),
-                eventNotes: newEvent.eventNotes
+                eventNotes: newEvent.eventNotes,
               })
             "
           />
