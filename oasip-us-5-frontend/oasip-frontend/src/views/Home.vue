@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
-import AddEventIcon from '../components/AddEventIcon.vue'
-import EventsList from '../components/EventsList.vue'
+import EventList from '../components/EventList.vue'
 import ShowDetail from '../components/ShowDetail.vue'
 import AddEvent from '../components/AddEvent.vue'
 import BaseButton from '../components/BaseButton.vue'
@@ -68,7 +67,6 @@ const getEvent = async () => {
     eventsGetted.value = await res.json()
     console.log(eventsGetted.value)
   } else console.log('error, cannot get data')
-  console.log(event)
 }
 const getEventCategory = async () => {
   const res = await fetch(`${webUrl}/eventCategories`)
@@ -76,7 +74,6 @@ const getEventCategory = async () => {
     eventCategoriesGetter.value = await res.json()
     console.log(eventCategoriesGetter.value)
   } else console.log('error, cannot get data')
-  console.log(event)
 }
 
 onBeforeMount(async () => {
@@ -107,23 +104,8 @@ const removeEvent = async (deleteEventId) => {
 </script>
 
 <template>
-  <div class="grid justify-items-end" v-show="eventsGetted.length !== 0">
-    <base-button
-      buttonName="Add Event"
-      class="mr-3"
-      @click="isAddEvent = !isAddEvent"
-    />
-  </div>
-  <div v-show="isAddEvent">
-    <add-event
-      :events="newestEvent"
-      :eventCategories="eventCategoriesGetter"
-      @close="showAddEvent"
-      @addEvent="createNewEvent"
-    ></add-event>
-  </div>
   <!-- event empty -->
-  <div v-if="eventsGetted.length === 0">
+  <div v-show="eventsGetted.length === 0">
     <div class="flex justify-center mt-40 text-gray-400">
       <base-button buttonName="Add Event" @click="isAddEvent = !isAddEvent" />
     </div>
@@ -132,8 +114,8 @@ const removeEvent = async (deleteEventId) => {
     </div>
   </div>
   <!-- Show event -->
-  <div v-else>
-    <events-list
+  <div v-show="eventsGetted.length !== 0">
+    <event-list
       :events="eventsGetted"
       @passEvent="currentEvent"
       @deleteEvent="removeEvent"

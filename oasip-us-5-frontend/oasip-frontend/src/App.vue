@@ -7,6 +7,9 @@
         <router-link :to="{ name: 'Home' }" class="routers"
           >Event List</router-link
         >
+        <router-link :to="{ name: 'Create' }" class="routers">
+          Create Event
+        </router-link>
       </div>
     </nav>
     <div>
