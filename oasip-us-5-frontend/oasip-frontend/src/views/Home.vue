@@ -2,7 +2,6 @@
 import { ref, onBeforeMount } from 'vue'
 import EventList from '../components/EventList.vue'
 import ShowDetail from '../components/ShowDetail.vue'
-import AddEvent from '../components/AddEvent.vue'
 import BaseButton from '../components/BaseButton.vue'
 import moment from 'moment'
 
@@ -29,36 +28,6 @@ const currentEvent = (event) => {
 }
 
 // Create
-const newestEvent = ref({})
-const createNewEvent = async (newEvent) => {
-  if (
-    newEvent.bookingName === undefined ||
-    newEvent.bookingEmail === undefined
-  ) {
-    alert('please insert data')
-  } else {
-    const res = await fetch(`${webUrl}/events`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        bookingName: newEvent.bookingName,
-        bookingEmail: newEvent.bookingEmail,
-        eventStartTime: newEvent.eventStartTime,
-        eventNotes: newEvent.eventNotes,
-        eventCategoryId: newEvent.eventCategoryId,
-      }),
-    })
-    if (res.status === 201) {
-      const addedEvent = await res.json()
-      eventsGetted.value.push(addedEvent)
-      alert('Added Successfully')
-      isAddEvent.value = false
-    } else 'error, cannot added'
-    newestEvent.value = {}
-  }
-}
 // Read
 const eventCategoriesGetter = ref([])
 const getEvent = async () => {
@@ -106,9 +75,6 @@ const removeEvent = async (deleteEventId) => {
 <template>
   <!-- event empty -->
   <div v-show="eventsGetted.length === 0">
-    <div class="flex justify-center mt-40 text-gray-400">
-      <base-button buttonName="Add Event" @click="isAddEvent = !isAddEvent" />
-    </div>
     <div class="flex justify-center text-7xl text-gray-400 mt-10">
       No schedule
     </div>

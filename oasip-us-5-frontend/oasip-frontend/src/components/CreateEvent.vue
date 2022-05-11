@@ -5,7 +5,7 @@ import BaseButton from './BaseButton.vue'
 defineEmits(['close, addEvent'])
 const props = defineProps({
   events: {
-    type: Array,
+    type: Object,
     require: true,
   },
   eventCategories: {
@@ -29,7 +29,7 @@ const newEvent = computed(() => {
 </script>
 <template>
   <form @submit.prevent="submitForm">
-    <h1>New event</h1>
+    <h1>Create new event</h1>
     <hr />
     <div class="form-control">
       <label> Booking Name : </label>
@@ -101,10 +101,9 @@ select,
 textarea {
   border: 2px solid;
 }
-input[type='text'] {
-  border: 2px solid orange;
-}
-input[type='select'] {
-  border: 2px solid orange;
+input:focus,
+select:focus,
+textarea:focus {
+  background-color: wheat;
 }
 </style>
