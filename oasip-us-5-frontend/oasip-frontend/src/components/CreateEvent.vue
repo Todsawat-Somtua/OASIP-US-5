@@ -44,9 +44,7 @@ const newEvent = computed(() => {
       "
     >
       <div>
-        <h1
-          class="block mb-2 text-3xl font-medium text-black-900 dark:text-black-400 text-center"
-        >
+        <h1 class="block mb-2 text-3xl font-medium text-center">
           Create new event
         </h1>
         <hr />
@@ -84,7 +82,7 @@ const newEvent = computed(() => {
         <div class="mb-6">
           <label
             for="category"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
           >
             Category Name
           </label>
@@ -107,7 +105,7 @@ const newEvent = computed(() => {
         <div class="mb-6">
           <label
             for="start-time"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
           >
             Start Time</label
           >
@@ -123,16 +121,17 @@ const newEvent = computed(() => {
         <div class="mb-6">
           <label
             for="note"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
           >
-            Notes
+            Notes (max 500 characters)
           </label>
           <textarea
             id="note"
             rows="3"
-            placeholder="Leave a note.."
+            placeholder="Leave a note to adviser .."
             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             v-model="newEvent.eventNotes"
+            maxlength="500"
           />
         </div>
         <div class="mb-6">

@@ -1,19 +1,18 @@
 package sit.int221.oasipus5backend.dtos;
 
-import lombok.AllArgsConstructor;
+import lombok.Setter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
 
 import java.time.Instant;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventDTO {
-    private Integer eventCategoryId;
-    private String bookingName;
-    private String bookingEmail;
+public class PutEventDTO {
+    private Integer eventId;
     private Instant eventStartTime;
     private String eventNotes;
+
 }

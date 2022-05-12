@@ -6,25 +6,21 @@ import EventTable from '../components/EventTable.vue'
 import moment from 'moment'
 
 const eventsGetted = ref([])
-const isModel = ref(false)
-const showDetail = ref({})
-const isAddEvent = ref(false)
+const isModalOpen = ref(false)
 
-const showModel = (e) => {
-  isModel.value = e
-}
-const showAddEvent = (e) => {
-  isAddEvent.value = e
+const showModal = (e) => {
+  isModalOpen.value = e
 }
 
 const webUrl = import.meta.env.PROD
   ? import.meta.env.VITE_API_URL
   : 'http://localhost:8080/api'
+
 const currentEventDetail = ref({})
 
 const currentEvent = (event) => {
   currentEventDetail.value = event
-  isModel.value = true
+  showModal(true)
 }
 
 // Create
@@ -34,14 +30,12 @@ const getEvent = async () => {
   const res = await fetch(`${webUrl}/events`)
   if (res.status === 200) {
     eventsGetted.value = await res.json()
-    console.log(eventsGetted.value)
   } else console.log('error, cannot get data')
 }
 const getEventCategory = async () => {
   const res = await fetch(`${webUrl}/eventCategories`)
   if (res.status === 200) {
     eventCategoriesGetter.value = await res.json()
-    console.log(eventCategoriesGetter.value)
   } else console.log('error, cannot get data')
 }
 
@@ -54,6 +48,35 @@ onBeforeMount(async () => {
 })
 
 // Update
+
+const eventUpdate = async (editingEvent) => {
+  await console.log(editingEvent)
+  showModal(false)
+  // const res = await fetch(`${webUrl}/events/${editingEvent.eventId}`, {
+  //   method: 'PUT',
+  //   headers: {
+  //     'content-type': 'application/json',
+  //   },
+  //   body: JSON.stringify({
+  //     eventId: editingEvent.eventId,
+  //     eventStartTime: editingEvent.eventStartTime,
+  //     eventNote: editingEvent.eventNote,
+  //   }),
+  // })
+  // if (res.status === 200) {
+  //   const editedEvent = await res.json()
+  //   eventsGetted.value = eventsGetted.value.map((event) =>
+  //     event.eventId === editedEvent.eventId
+  //       ? {
+  //           ...event,
+  //           eventId: editedEvent.eventId,
+  //           eventStartTime: editedEvent.eventStartTime,
+  //           eventNotes: editedEvent.eventNotes,
+  //         }
+  //       : event
+  //   )
+  // } else console.log('error, cannot be added')
+}
 
 // Delete
 const removeEvent = async (deleteEventId) => {
@@ -89,8 +112,12 @@ const removeEvent = async (deleteEventId) => {
         @showDetail="currentEvent"
       />
     </div>
-    <div v-if="isModel">
-      <show-detail :eventDetail="currentEventDetail" @close="showModel" />
+    <div v-if="isModalOpen">
+      <show-detail
+        :eventDetail="currentEventDetail"
+        @close="showModal"
+        @updateEvent="eventUpdate"
+      />
     </div>
   </div>
 </template>
