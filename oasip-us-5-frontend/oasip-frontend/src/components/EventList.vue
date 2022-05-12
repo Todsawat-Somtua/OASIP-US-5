@@ -27,6 +27,7 @@ defineProps({
         </li>
         <li>Duration : {{ event.eventDuration }} mins</li>
         <base-button buttonName="Detail" @click="$emit('passEvent', event)" />
+        <base-button buttonName="Edit" class="ml-3"/>
         <base-button
           buttonName="Delete"
           @click="$emit('deleteEvent', event.eventId)"

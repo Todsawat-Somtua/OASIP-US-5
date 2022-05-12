@@ -54,6 +54,7 @@ onBeforeMount(async () => {
 })
 
 // Update
+
 // Delete
 const removeEvent = async (deleteEventId) => {
   if (confirm('Are you sure to delete') == true) {

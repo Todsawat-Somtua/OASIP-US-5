@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    <nav class="flex items-center justify-between flex-wrap bg-orange-500 p-3">
+    <nav class="flex justify-between flex-wrap bg-orange-500 p-3">
       <div id="router-container">
         <router-link :to="{ name: 'Home' }" class="routers"
           >Event List</router-link
@@ -10,6 +10,7 @@
         <router-link :to="{ name: 'Create' }" class="routers">
           Create Event
         </router-link>
+        
       </div>
     </nav>
     <div>
@@ -29,4 +30,5 @@
   color: white;
   font-family: 'Libre Bodoni', serif;
 }
+
 </style>
