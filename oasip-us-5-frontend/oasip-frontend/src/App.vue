@@ -7,8 +7,8 @@
     >
       <div>
         <router-link :to="{ name: 'Home' }" class="flex items-center">
-          <img src="./assets/logo.png" ref="TeawKai" class="mr-3 h-6 sm:h-9" />
-          TeawKaiorTeawPedareBetter
+          <img src="../mylogo.png" ref="TeawKai" class="mr-3 h-6 sm:h-9" />
+          TeawKai or TeawPed are Better
         </router-link>
       </div>
       <div class="content">

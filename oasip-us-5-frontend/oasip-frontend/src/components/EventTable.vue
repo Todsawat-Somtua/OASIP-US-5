@@ -33,7 +33,12 @@ defineProps({
           :key="event.eventId"
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
         >
-          <td class="px-6 py-4">{{ event.bookingName }}</td>
+          <td v-if="event.bookingName.length > 40" class="px-6 py-4">
+            {{ event.bookingName.slice(0, 40) }}...
+          </td>
+          <td v-else class="px-6 py-4">
+            {{ event.bookingName }}
+          </td>
           <td class="px-6 py-4">{{ event.eventCategory.eventCategoryName }}</td>
           <td class="px-6 py-4">
             {{ moment(event.eventStartTime).format('HH:mm , DD MMMM YYYY') }}

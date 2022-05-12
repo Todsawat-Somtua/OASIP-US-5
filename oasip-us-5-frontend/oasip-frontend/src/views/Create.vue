@@ -1,6 +1,7 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue'
 import CreateEvent from '../components/CreateEvent.vue'
+import router from '../router'
 
 const webUrl = import.meta.env.PROD
   ? import.meta.env.VITE_API_URL
@@ -44,7 +45,10 @@ const createNewEvent = async (newEvent) => {
   if (res.status === 201) {
     const addedEvent = await res.json()
     eventGetter.value.push(addedEvent)
+    router.replace({ path: '/' })
     alert('Added Successfully')
+  } else if (res.status === 500) {
+    alert('eiei')
   } else 'error, cannot added'
   newestEvent.value = {}
 }
