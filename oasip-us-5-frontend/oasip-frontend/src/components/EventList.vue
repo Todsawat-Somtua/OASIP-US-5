@@ -2,7 +2,7 @@
 import moment from 'moment'
 import BaseButton from '../components/BaseButton.vue'
 
-defineEmits(['passEvent,deleteEvent'])
+defineEmits(['deleteEvent', 'passEvent'])
 defineProps({
   events: {
     type: Array,
@@ -37,4 +37,9 @@ defineProps({
   </div>
 </template>
 
-<style></style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kanit&family=Mitr&display=swap');
+li {
+  font-family: 'Kanit', sans-serif;
+}
+</style>

@@ -28,32 +28,25 @@ onBeforeMount(async () => {
 
 const newestEvent = ref({})
 const createNewEvent = async (newEvent) => {
-  if (
-    newEvent.bookingName === undefined ||
-    newEvent.bookingEmail === undefined
-  ) {
-    alert('please insert data')
-  } else {
-    const res = await fetch(`${webUrl}/events`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        bookingName: newEvent.bookingName,
-        bookingEmail: newEvent.bookingEmail,
-        eventStartTime: newEvent.eventStartTime,
-        eventNotes: newEvent.eventNotes,
-        eventCategoryId: newEvent.eventCategoryId,
-      }),
-    })
-    if (res.status === 201) {
-      const addedEvent = await res.json()
-      eventGetter.value.push(addedEvent)
-      alert('Added Successfully')
-    } else 'error, cannot added'
-    newestEvent.value = {}
-  }
+  const res = await fetch(`${webUrl}/events`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      bookingName: newEvent.bookingName,
+      bookingEmail: newEvent.bookingEmail,
+      eventStartTime: newEvent.eventStartTime,
+      eventNotes: newEvent.eventNotes,
+      eventCategoryId: newEvent.eventCategoryId,
+    }),
+  })
+  if (res.status === 201) {
+    const addedEvent = await res.json()
+    eventGetter.value.push(addedEvent)
+    alert('Added Successfully')
+  } else 'error, cannot added'
+  newestEvent.value = {}
 }
 </script>
 <template>

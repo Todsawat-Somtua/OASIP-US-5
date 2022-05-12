@@ -2,7 +2,7 @@
 import BaseButton from '../components/BaseButton.vue'
 import moment from 'moment-timezone'
 
-defineEmits(['close'])
+defineEmits(['close', 'edit'])
 defineProps({
   eventDetail: {
     type: Object,
@@ -35,6 +35,9 @@ defineProps({
           </p>
         </div>
         <div class="text-black flex justify-end">
+          <base-button buttonName="Edit" @click="$emit('edit')">
+            Edit
+          </base-button>
           <base-button buttonName="Close" @click="$emit('close', false)"
             >Close</base-button
           >
