@@ -21,6 +21,12 @@
         >
           Create Event
         </router-link>
+        <router-link
+          :to="{ name: 'AboutUs' }"
+          class="py-2 pr-4 pl-3 text-gray-700"
+        >
+          About Us
+        </router-link>
       </div>
     </nav>
     <router-view> </router-view>

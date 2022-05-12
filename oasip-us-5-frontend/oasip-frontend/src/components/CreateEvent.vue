@@ -45,7 +45,7 @@ const newEvent = computed(() => {
     >
       <div>
         <h1
-          class="block mb-2 text-3xl font-medium text-black-900 dark:text-black-400"
+          class="block mb-2 text-3xl font-medium text-black-900 dark:text-black-400 text-center"
         >
           Create new event
         </h1>
@@ -156,8 +156,5 @@ form {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   padding: 1.5rem;
   font-family: 'Kanit', sans-serif;
-}
-h1 {
-  text-align: center;
 }
 </style>
