@@ -1,8 +1,8 @@
 <script setup>
-import { ref, onBeforeMount } from 'vue'
-import EventList from '../components/EventList.vue'
+import { ref, onBeforeMount, onMounted } from 'vue'
 import ShowDetail from '../components/ShowDetail.vue'
 import BaseButton from '../components/BaseButton.vue'
+import EventTable from '../components/EventTable.vue'
 import moment from 'moment'
 
 const eventsGetted = ref([])
@@ -74,28 +74,25 @@ const removeEvent = async (deleteEventId) => {
 </script>
 
 <template>
-  <!-- event empty -->
-  <div v-show="eventsGetted.length === 0">
-    <div class="flex justify-center text-7xl text-gray-400 mt-10">
-      No schedule
+  <div>
+    <!-- event empty -->
+    <div v-show="eventsGetted.length === 0">
+      <div class="flex justify-center text-7xl text-gray-400 mt-10">
+        No schedule
+      </div>
     </div>
-  </div>
-  <!-- Show event -->
-  <div v-show="eventsGetted.length !== 0">
-    <event-list
-      :events="eventsGetted"
-      @passEvent="currentEvent"
-      @deleteEvent="removeEvent"
-    />
-  </div>
-  <div v-if="isModel">
-    <show-detail :eventDetail="currentEventDetail" @close="showModel" />
+    <!-- Show event -->
+    <div v-show="eventsGetted.length !== 0">
+      <event-table
+        :events="eventsGetted"
+        @deleteEvent="removeEvent"
+        @showDetail="currentEvent"
+      />
+    </div>
+    <div v-if="isModel">
+      <show-detail :eventDetail="currentEventDetail" @close="showModel" />
+    </div>
   </div>
 </template>
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-}
-</style>
+<style></style>

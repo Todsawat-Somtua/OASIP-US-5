@@ -2,33 +2,40 @@
 
 <template>
   <div>
-    <nav class="flex justify-between flex-wrap bg-orange-500 p-3">
-      <div id="router-container">
-        <router-link :to="{ name: 'Home' }" class="routers"
+    <nav
+      class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-800 flex justify-between flex-wrap"
+    >
+      <div>
+        <router-link :to="{ name: 'Home' }" class="flex items-center">
+          <img src="./assets/logo.png" ref="TeawKai" class="mr-3 h-6 sm:h-9" />
+          TeawKaiorTeawPedareBetter
+        </router-link>
+      </div>
+      <div class="content">
+        <router-link :to="{ name: 'Home' }" class="py-2 pr-4 pl-3 text-gray-700"
           >Event List</router-link
         >
-        <router-link :to="{ name: 'Create' }" class="routers">
+        <router-link
+          :to="{ name: 'Create' }"
+          class="py-2 pr-4 pl-3 text-gray-700"
+        >
           Create Event
         </router-link>
-        
       </div>
     </nav>
-    <div>
-      <router-view></router-view>
-    </div>
+    <router-view> </router-view>
   </div>
 </template>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@1,700&display=swap');
-.routers {
-  margin: 10px 10px;
-}
-#router-container {
-  font-size: 45px;
-  font-style: normal;
+<style scoped>
+a {
+  font-weight: bold;
+  text-decoration: none;
+  margin-right: 1em;
   color: white;
-  font-family: 'Libre Bodoni', serif;
 }
-
+.content > a:hover,
+.content > a.router-link-active {
+  border-bottom: 2px solid white;
+}
 </style>
