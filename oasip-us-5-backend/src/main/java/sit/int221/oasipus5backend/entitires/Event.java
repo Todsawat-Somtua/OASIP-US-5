@@ -4,12 +4,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.Date;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @Table(name = "events")
 public class Event {
     @Id

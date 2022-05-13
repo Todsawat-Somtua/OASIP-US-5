@@ -50,32 +50,31 @@ onBeforeMount(async () => {
 // Update
 
 const eventUpdate = async (editingEvent) => {
-  await console.log(editingEvent)
-  showModal(false)
-  // const res = await fetch(`${webUrl}/events/${editingEvent.eventId}`, {
-  //   method: 'PUT',
-  //   headers: {
-  //     'content-type': 'application/json',
-  //   },
-  //   body: JSON.stringify({
-  //     eventId: editingEvent.eventId,
-  //     eventStartTime: editingEvent.eventStartTime,
-  //     eventNote: editingEvent.eventNote,
-  //   }),
-  // })
-  // if (res.status === 200) {
-  //   const editedEvent = await res.json()
-  //   eventsGetted.value = eventsGetted.value.map((event) =>
-  //     event.eventId === editedEvent.eventId
-  //       ? {
-  //           ...event,
-  //           eventId: editedEvent.eventId,
-  //           eventStartTime: editedEvent.eventStartTime,
-  //           eventNotes: editedEvent.eventNotes,
-  //         }
-  //       : event
-  //   )
-  // } else console.log('error, cannot be added')
+  console.log(JSON.stringify(editingEvent))
+  const res = await fetch(`${webUrl}/events/${editingEvent.eventId}`, {
+    method: 'PUT',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      eventStartTime: editingEvent.eventStartTime,
+      eventNotes: editingEvent.eventNotes,
+    }),
+  })
+  if (res.status === 200) {
+    const editedEvent = await res.json()
+    eventsGetted.value = eventsGetted.value.map((event) =>
+      event.eventId === editedEvent.eventId
+        ? {
+            ...event,
+            eventId: editedEvent.eventId,
+            eventStartTime: editedEvent.eventStartTime,
+            eventNotes: editedEvent.eventNotes,
+          }
+        : event
+    )
+    showModal(false)
+  } else console.log('error, cannot be added')
 }
 
 // Delete

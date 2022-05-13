@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import sit.int221.oasipus5backend.dtos.EventDTO;
-import sit.int221.oasipus5backend.dtos.PutEventDTO;
+import sit.int221.oasipus5backend.dtos.UpdateEventDTO;
 import sit.int221.oasipus5backend.entitires.Event;
 import sit.int221.oasipus5backend.services.EventService;
 
@@ -34,8 +34,8 @@ public class EventController {
     public void deleteEvent(@PathVariable Integer eventId) { service.deleteEvent(eventId); }
 
     // Update
-    @PutMapping("/{evemtId}")
-    public Event updateEvent(@RequestBody PutEventDTO updatedEvent, @PathVariable Integer eventId) {
+    @PutMapping("/{eventId}")
+    public Event updateEvent(@RequestBody UpdateEventDTO updatedEvent, @PathVariable Integer eventId) {
         return service.updateEvent(updatedEvent, eventId );
     }
 }

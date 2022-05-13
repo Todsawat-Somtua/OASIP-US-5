@@ -3,7 +3,6 @@ package sit.int221.oasipus5backend.entitires;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -12,7 +11,6 @@ import java.util.Set;
 @Entity
 @Setter
 @Getter
-@ToString
 @Table(name = "eventcategories")
 public class EventCategory {
     @Id

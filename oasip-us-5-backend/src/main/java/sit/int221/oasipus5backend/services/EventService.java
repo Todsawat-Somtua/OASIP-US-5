@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import sit.int221.oasipus5backend.dtos.EventDTO;
-import sit.int221.oasipus5backend.dtos.PutEventDTO;
+import sit.int221.oasipus5backend.dtos.UpdateEventDTO;
 import sit.int221.oasipus5backend.entitires.Event;
 import sit.int221.oasipus5backend.entitires.EventCategory;
 import sit.int221.oasipus5backend.repositories.EventCategoryRepository;
@@ -48,23 +48,13 @@ public class EventService {
         repository.deleteById(eventId);
     }
     // Update
-    public Event updateEvent(PutEventDTO updatedEvent, Integer eventId){
-        Event updatingEvent = modelMapper.map(updatedEvent, Event.class);
-//        updatingEvent =  repository.findById(eventId).map(
-//                e-> mapEvent(e, updatedEvent)).orElseGet(()-> { updatedEvent.setEventId(eventId);
-//                return updatedEvent;
-//                });
-//                return repository.saveAndFlush(updateEvent);
-        System.out.println(updatedEvent);
-        System.out.println(eventId);
-        return updatingEvent;
-    }
-
-    // Map
-    public Event mapEvent(Event existEvent, PutEventDTO updateEvent){
-        existEvent.setEventId(updateEvent.getEventId());
-        existEvent.setEventStartTime(updateEvent.getEventStartTime());
-        existEvent.setEventNotes(updateEvent.getEventNotes());
-        return existEvent;
+    public Event updateEvent(UpdateEventDTO updatedEvent, Integer eventId){
+        Event updatingEvent = repository.findById(eventId).orElseThrow(
+                ()-> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Event Id " + eventId + " Does not exits"
+                ));
+        updatingEvent.setEventStartTime(updatedEvent.getEventStartTime());
+        updatingEvent.setEventNotes(updatedEvent.getEventNotes());
+        return repository.saveAndFlush(updatingEvent);
     }
 }
