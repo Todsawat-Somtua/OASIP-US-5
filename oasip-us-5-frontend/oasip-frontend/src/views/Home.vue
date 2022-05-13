@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onBeforeMount, onMounted } from 'vue'
 import ShowDetail from '../components/ShowDetail.vue'
-import BaseButton from '../components/BaseButton.vue'
 import EventTable from '../components/EventTable.vue'
 import moment from 'moment'
 
@@ -48,9 +47,7 @@ onBeforeMount(async () => {
 })
 
 // Update
-
 const eventUpdate = async (editingEvent) => {
-  console.log(JSON.stringify(editingEvent))
   const res = await fetch(`${webUrl}/events/${editingEvent.eventId}`, {
     method: 'PUT',
     headers: {

@@ -1,5 +1,4 @@
 <script setup>
-import BaseButton from '../components/BaseButton.vue'
 import moment from 'moment-timezone'
 import { computed, ref } from 'vue'
 
@@ -15,7 +14,9 @@ const currentDate = moment().format('YYYY-MM-DDTHH:mm')
 const editingEvent = computed(() => {
   return {
     eventId: props.eventDetail.eventId,
-    eventStartTime: props.eventDetail.eventStartTime,
+    eventStartTime: props.eventDetail.eventStartTime
+      ? moment().format('YYYY-MM-DDTHH:mm')
+      : moment(props.eventDetail.eventStartTime).format('YYYY-MM-DDTHH:mm'),
     eventNotes: props.eventDetail.eventNotes,
   }
 })

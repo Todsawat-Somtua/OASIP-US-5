@@ -29,30 +29,43 @@ onBeforeMount(async () => {
 
 const newestEvent = ref({})
 const createNewEvent = async (newEvent) => {
-  const res = await fetch(`${webUrl}/events`, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      bookingName: newEvent.bookingName,
-      bookingEmail: newEvent.bookingEmail,
-      eventStartTime: newEvent.eventStartTime,
-      eventNotes: newEvent.eventNotes,
-      eventCategoryId: newEvent.eventCategoryId,
-    }),
-  })
-  if (res.status === 201) {
-    const addedEvent = await res.json()
-    eventGetter.value.push(addedEvent)
-    router.replace({ path: '/' })
-    alert('Added Successfully')
-  } else if (res.status === 500) {
-    alert('eiei')
-  } else 'error, cannot added'
-  newestEvent.value = {}
+  if (
+    eventGetter.value.map(
+      (event) =>
+        event.eventCategory.eventCategoryId === newEvent.eventCategoryId
+    ) ||
+    eventGetter.value.map(
+      (event) => event.eventStartTime === newEvent.eventStartTime
+    )
+  ) {
+    alert('Someone already booked please change start time or clinic')
+  } else {
+    const res = await fetch(`${webUrl}/events`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        bookingName: newEvent.bookingName,
+        bookingEmail: newEvent.bookingEmail,
+        eventStartTime: newEvent.eventStartTime,
+        eventNotes: newEvent.eventNotes,
+        eventCategoryId: newEvent.eventCategoryId,
+      }),
+    })
+    if (res.status === 201) {
+      const addedEvent = await res.json()
+      eventGetter.value.push(addedEvent)
+      newestEvent.value = {}
+      router.replace({ path: '/' })
+      alert('Added Successfully')
+    } else {
+      console.log('error, cannot added')
+    }
+  }
 }
 </script>
+
 <template>
   <div>
     <create-event
