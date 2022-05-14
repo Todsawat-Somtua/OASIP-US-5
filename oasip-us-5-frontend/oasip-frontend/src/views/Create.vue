@@ -30,11 +30,12 @@ onBeforeMount(async () => {
 const newestEvent = ref({})
 const createNewEvent = async (newEvent) => {
   if (
-    eventGetter.value.map(
+    // eventGetter.value.length > 0
+    eventGetter.value.some(
       (event) =>
         event.eventCategory.eventCategoryId === newEvent.eventCategoryId
-    ) ||
-    eventGetter.value.map(
+    ) &&
+    eventGetter.value.some(
       (event) => event.eventStartTime === newEvent.eventStartTime
     )
   ) {
