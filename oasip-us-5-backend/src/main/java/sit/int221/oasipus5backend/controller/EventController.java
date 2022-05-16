@@ -8,6 +8,7 @@ import sit.int221.oasipus5backend.dtos.UpdateEventDTO;
 import sit.int221.oasipus5backend.entitires.Event;
 import sit.int221.oasipus5backend.services.EventService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,7 @@ public class EventController {
     // POST
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Event createEvent(@RequestBody EventDTO newEvent){
+    public Event createEvent(@Valid @RequestBody EventDTO newEvent){
         return service.createEvent(newEvent);
     }
     // Delete

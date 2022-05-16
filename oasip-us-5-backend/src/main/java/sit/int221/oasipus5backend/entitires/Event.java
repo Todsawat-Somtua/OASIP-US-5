@@ -3,6 +3,10 @@ package sit.int221.oasipus5backend.entitires;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 
 @Entity
@@ -19,9 +23,13 @@ public class Event {
     private EventCategory eventCategory;
 
     @Column(name = "bookingName", nullable = false, length = 100)
+    @NotEmpty(message = "Not Empty")
+    @Size(max = 100, message = "100 characters")
     private String bookingName;
 
     @Column(name = "bookingEmail", nullable = false, length = 45)
+    @NotEmpty(message = "Not Empty")
+    @Email(message = "must @mail only")
     private String bookingEmail;
 
     @Column(name = "eventStartTime", nullable = false)
