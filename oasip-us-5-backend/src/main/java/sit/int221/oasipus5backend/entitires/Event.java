@@ -23,12 +23,12 @@ public class Event {
     private EventCategory eventCategory;
 
     @Column(name = "bookingName", nullable = false, length = 100)
-    @NotEmpty(message = "Not Empty")
+    @NotEmpty(message = "Please insert name")
     @Size(max = 100, message = "100 characters")
     private String bookingName;
 
     @Column(name = "bookingEmail", nullable = false, length = 45)
-    @NotEmpty(message = "Not Empty")
+    @NotEmpty(message = "Please insert email")
     @Email(message = "must @mail only")
     private String bookingEmail;
 
