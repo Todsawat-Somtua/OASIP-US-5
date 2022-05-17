@@ -2,6 +2,7 @@
 import { onBeforeMount, ref } from 'vue'
 import CreateEvent from '../components/CreateEvent.vue'
 import router from '../router'
+import moment from 'moment'
 
 const webUrl = import.meta.env.PROD
   ? import.meta.env.VITE_API_URL
@@ -27,17 +28,23 @@ onBeforeMount(async () => {
   await getEvent()
 })
 
+const isCollape = ref([])
 const newestEvent = ref({})
 const createNewEvent = async (newEvent) => {
   if (
-    // eventGetter.value.length > 0
-    eventGetter.value.some(
-      (event) =>
-        event.eventCategory.eventCategoryId === newEvent.eventCategoryId
-    ) &&
-    eventGetter.value.some(
-      (event) => event.eventStartTime === newEvent.eventStartTime
-    )
+    eventGetter.value
+      .filter(
+        (event) =>
+          event.eventCategory.eventCategoryId === newEvent.eventCategoryId
+      )
+      .some(
+        (event) =>
+          event.eventStartTime === newEvent.eventStartTime ||
+          moment(event.eventStartTime)
+            .utc()
+            .add(event.eventCategory.eventDuration, 'm')
+            .format() >= newEvent.eventStartTime
+      )
   ) {
     alert('Someone already booked please change start time or clinic')
   } else {

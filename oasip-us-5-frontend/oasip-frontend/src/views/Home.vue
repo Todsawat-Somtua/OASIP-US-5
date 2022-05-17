@@ -48,30 +48,45 @@ onBeforeMount(async () => {
 
 // Update
 const eventUpdate = async (editingEvent) => {
-  const res = await fetch(`${webUrl}/events/${editingEvent.eventId}`, {
-    method: 'PUT',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      eventStartTime: editingEvent.eventStartTime,
-      eventNotes: editingEvent.eventNotes,
-    }),
-  })
-  if (res.status === 200) {
-    const editedEvent = await res.json()
-    eventsGetted.value = eventsGetted.value.map((event) =>
-      event.eventId === editedEvent.eventId
-        ? {
-            ...event,
-            eventId: editedEvent.eventId,
-            eventStartTime: editedEvent.eventStartTime,
-            eventNotes: editedEvent.eventNotes,
-          }
-        : event
-    )
-    showModal(false)
-  } else console.log('error, cannot be added')
+  if (
+    eventsGetted.value
+      .filter((event) => event.eventId === editingEvent.eventId)
+      .some(
+        (event) =>
+          event.eventStartTime === editingEvent.eventStartTime ||
+          moment(event.eventStartTime)
+            .utc()
+            .add(event.eventCategory.eventDuration, 'm')
+            .format() >= editingEvent.eventStartTime
+      )
+  ) {
+    alert('Someone already booked please change start time or clinic')
+  } else {
+    const res = await fetch(`${webUrl}/events/${editingEvent.eventId}`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        eventStartTime: editingEvent.eventStartTime,
+        eventNotes: editingEvent.eventNotes,
+      }),
+    })
+    if (res.status === 200) {
+      const editedEvent = await res.json()
+      eventsGetted.value = eventsGetted.value.map((event) =>
+        event.eventId === editedEvent.eventId
+          ? {
+              ...event,
+              eventId: editedEvent.eventId,
+              eventStartTime: editedEvent.eventStartTime,
+              eventNotes: editedEvent.eventNotes,
+            }
+          : event
+      )
+      showModal(false)
+    } else console.log('error, cannot be added')
+  }
 }
 
 // Delete
