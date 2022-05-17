@@ -7,6 +7,7 @@ import sit.int221.oasipus5backend.dtos.EventDTO;
 import sit.int221.oasipus5backend.dtos.UpdateEventDTO;
 import sit.int221.oasipus5backend.entitires.Event;
 import sit.int221.oasipus5backend.services.EventService;
+import sit.int221.oasipus5backend.utils.DateValidation;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/events")
 public class EventController {
+
     @Autowired private EventService service;
     // GET
     @GetMapping("")
@@ -28,15 +30,13 @@ public class EventController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public Event createEvent(@Valid @RequestBody EventDTO newEvent){
-        return service.createEvent(newEvent);
-    }
+        return service.createEvent(newEvent); }
     // Delete
     @DeleteMapping("/{eventId}")
     public void deleteEvent(@PathVariable Integer eventId) { service.deleteEvent(eventId); }
-
     // Update
     @PutMapping("/{eventId}")
-    public Event updateEvent(@RequestBody UpdateEventDTO updatedEvent, @PathVariable Integer eventId) {
+    public Event updateEvent(@Valid @RequestBody UpdateEventDTO updatedEvent, @PathVariable Integer eventId) {
         return service.updateEvent(updatedEvent, eventId );
     }
 }
