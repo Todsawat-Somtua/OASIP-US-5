@@ -26,7 +26,7 @@ public class Event {
 //    @Size(max = 100, message = "100 characters")
     private String bookingName;
 
-    @Column(name = "bookingEmail", nullable = false, length = 45)
+    @Column(name = "bookingEmail", nullable = false, length = 100)
 //    @NotEmpty(message = "Please insert email")
 //    @Email(message = "must @mail only")
     private String bookingEmail;

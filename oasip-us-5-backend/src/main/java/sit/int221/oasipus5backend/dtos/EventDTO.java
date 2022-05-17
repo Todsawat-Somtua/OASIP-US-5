@@ -25,6 +25,7 @@ public class EventDTO {
     @Email(message = "Your email is invalid, Please insert in the form email@address.com")
     private String bookingEmail;
     @Future(message = "Your Time is invalid, Please insert a future date and time")
+    @Size(max = 100, message = "Max character of the email is 100 characters")
     private Instant eventStartTime;
     @Size(max = 500, message = "Note must size between 0 and 500 character")
     private String eventNotes;
