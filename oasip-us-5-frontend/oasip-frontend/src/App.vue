@@ -16,6 +16,12 @@
           >Event List</router-link
         >
         <router-link
+          :to="{ name: 'Category' }"
+          class="py-2 pr-4 pl-3 text-gray-700"
+        >
+          Event Category
+        </router-link>
+        <router-link
           :to="{ name: 'Create' }"
           class="py-2 pr-4 pl-3 text-gray-700"
         >
