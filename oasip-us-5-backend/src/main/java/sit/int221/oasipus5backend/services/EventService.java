@@ -38,7 +38,11 @@ public class EventService {
         evt.setEventCategory(eventCategory);
         evt.setEventDuration(eventCategory.getEventDuration());
         evt.setEventId(null);
-        return repository.saveAndFlush(evt);
+        Instant endTime = evt.getEventStartTime().plusSeconds(evt.getEventDuration() * 60);
+        List<Event> isOverlap = repository.findOverlapEventsByCategoryId(evt.getEventStartTime(), endTime, evt.getEventCategory().getEventCategoryId());
+        if (isOverlap.size() != 0){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Your booking date is Overlap please change the time");
+        } else return repository.saveAndFlush(evt);
     }
 
     // Delete
