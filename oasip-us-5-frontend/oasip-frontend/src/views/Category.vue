@@ -15,6 +15,9 @@ const getEventCategory = async () => {
 
 onBeforeMount(async () => {
   await getEventCategory()
+  eventCategoriesGetter.value.sort(
+    (a, b) => (b.eventCategoryId) - (a.eventCategoryId)
+  )
 })
 </script>
  
