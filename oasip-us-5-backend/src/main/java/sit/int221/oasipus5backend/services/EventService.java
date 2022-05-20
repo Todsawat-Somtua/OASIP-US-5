@@ -1,6 +1,5 @@
 package sit.int221.oasipus5backend.services;
 
-import lombok.ToString;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,9 +12,10 @@ import sit.int221.oasipus5backend.entitires.EventCategory;
 import sit.int221.oasipus5backend.repositories.EventCategoryRepository;
 import sit.int221.oasipus5backend.repositories.EventRepository;
 
+import java.time.Instant;
 import java.util.List;
 
-@Service @ToString
+@Service
 public class EventService {
     @Autowired private EventRepository repository;
     @Autowired private ModelMapper modelMapper;

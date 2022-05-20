@@ -7,7 +7,6 @@ import sit.int221.oasipus5backend.dtos.EventDTO;
 import sit.int221.oasipus5backend.dtos.UpdateEventDTO;
 import sit.int221.oasipus5backend.entitires.Event;
 import sit.int221.oasipus5backend.services.EventService;
-import sit.int221.oasipus5backend.utils.DateValidation;
 
 import javax.validation.Valid;
 import java.util.List;
