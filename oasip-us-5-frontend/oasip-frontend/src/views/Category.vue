@@ -23,7 +23,7 @@ onBeforeMount(async () => {
  
 <template>
 <div>
-    <EventCategoryTable :events="eventCategoriesGetter"/>
+    <EventCategoryTable :categories="eventCategoriesGetter"/>
 </div>
 </template>
  
