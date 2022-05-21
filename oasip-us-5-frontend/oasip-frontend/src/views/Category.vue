@@ -19,11 +19,32 @@ onBeforeMount(async () => {
     (a, b) => (b.eventCategoryId) - (a.eventCategoryId)
   )
 })
+const updateCategory = async (editingCategory) => {
+  if (editingCategory.eventCategoryName === "" ) {
+    alert('please insert Movie Name and Genre')
+  } else {
+    const res = await fetch(`${webUrl}eventCategories/${editingCategory.eventCategoryId}`, {
+    method: 'PUT',
+    headers:{
+      'content-type' : 'application/json'
+    },
+    body: JSON.stringify({ eventCategoryName: editingCategory.eventCategoryName, eventCategoryDescription: editingCategory.eventCategoryDescription, eventDuration: editingCategory.eventDuration})
+    })
+    if (res.status === 200) {
+      const editedCategory = await res.json()
+      eventCategoriesGetter.value = eventCategoriesGetter.value.map((category) => 
+      category.eventCategoryId === editedCategory.eventCategoryId
+      ? {...category, eventCategoryName: editedCategory.eventCategoryName, eventCategoryDescription: editedCategory.eventCategoryDescription, eventDuration: editedCategory.eventDuration} 
+      : category
+      )
+    } else console.log('error, cannot be added')
+  }
+}
 </script>
  
 <template>
 <div>
-    <EventCategoryTable :categories="eventCategoriesGetter"/>
+    <event-category-table :categories="eventCategoriesGetter" @updateCategory="updateCategory"></event-category-table>
 </div>
 </template>
  

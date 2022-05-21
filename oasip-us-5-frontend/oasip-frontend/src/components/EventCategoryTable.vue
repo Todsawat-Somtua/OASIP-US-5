@@ -1,4 +1,5 @@
 <script setup>
+import {computed} from 'vue'
 defineEmits(['updateCategory'])
 const props = defineProps({
   categories: {
@@ -6,14 +7,14 @@ const props = defineProps({
     require: true,
   },
 })
-// const editingCategory = computed(() => {
-//   return {
-//     eventCategoryId: props.eventCategoryId,
-//     eventCategoryName: props.eventCategoryName,
-//     eventDuration: props.eventDuration,
-//     eventDuration: props.eventDuration,
-//   }
-// })
+const editingCategory = computed(() => {
+  return {
+    eventCategoryId: props.eventCategoryId,
+    eventCategoryName: props.eventCategoryName,
+    eventDuration: props.eventDuration,
+    eventDuration: props.eventDuration,
+  }
+})
 </script>
  
 <template>

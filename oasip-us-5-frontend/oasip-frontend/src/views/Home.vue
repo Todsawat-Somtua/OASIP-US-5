@@ -1,12 +1,12 @@
 <script setup>
-import { ref, onBeforeMount, onMounted } from 'vue'
+import { ref, onBeforeMount, onMounted, computed } from 'vue'
 import ShowDetail from '../components/ShowDetail.vue'
 import EventTable from '../components/EventTable.vue'
 import moment from 'moment'
 
 const eventsGetted = ref([])
 const isModalOpen = ref(false)
-
+const selectCategory = ref('All')
 const showModal = (e) => {
   isModalOpen.value = e
 }
@@ -88,28 +88,7 @@ const eventUpdate = async (editingEvent) => {
     } else console.log('error, cannot be added')
   }
 }
-const updateCategory = async (editingCategory) => {
-  if (editingCategory.eventCategoryName === "" ) {
-    alert('please insert Movie Name and Genre')
-  } else {
-    const res = await fetch(`${webUrl}eventCategories/${editingCategory.eventCategoryId}`, {
-    method: 'PUT',
-    headers:{
-      'content-type' : 'application/json'
-    },
-    body: JSON.stringify({ eventCategoryName: editingCategory.eventCategoryName, eventCategoryDescription: editingCategory.eventCategoryDescription, eventDuration: editingCategory.eventDuration})
-    })
-    if (res.status === 200) {
-      const editedCategory = await res.json()
-      eventCategoriesGetter.value = eventCategoriesGetter.value.map((category) => 
-      category.eventCategoryId === editedCategory.eventCategoryId
-      ? {...category, eventCategoryName: editedCategory.eventCategoryName, eventCategoryDescription: editedCategory.eventCategoryDescription, eventDuration: editedCategory.eventDuration} 
-      : category
-      )
-    } else console.log('error, cannot be added')
-    closeForm()
-  }
-}
+
 
 
 // Delete
@@ -128,17 +107,34 @@ const removeEvent = async (deleteEventId) => {
     console.log('cancel')
   }
 }
+// const filterCategory = computed(() => {
+//   if (selectCategory.value === 'All') {
+//     return eventCategoriesGetter.value
+//   } else {
+//     return eventCategoriesGetter.value.filter((event) => event.eventCategoriesGetter === selectCategory.value)
+//   }
+// })
+
 </script>
 
 <template>
 <div class="flex justify-end mt-4 mr-4">
-  <select class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-    <option>Event</option>
-    <option>Event Category</option>
+  <select class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mr-4"
+  v-model="selectCategory"
+  >
+    <option option value="All">All</option>
+    <option v-for="category in eventCategoriesGetter" :value="category.eventCategoryId" :key="category.eventCategoryId">
+    {{ category.eventCategoryName }}
+    </option>
+  </select>
+  <select class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+  >
+    <option option value="All">All</option>
     <option>Today</option>
     <option>Upcoming</option>
     <option>Past</option>
   </select>
+
 </div>
   <div>
     <!-- event empty -->
@@ -162,6 +158,7 @@ const removeEvent = async (deleteEventId) => {
         @updateEvent="eventUpdate"
       />
     </div>
+    
   </div>
 </template>
 
