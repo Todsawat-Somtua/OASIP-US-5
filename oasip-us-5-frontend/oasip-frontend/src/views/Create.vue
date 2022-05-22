@@ -30,6 +30,7 @@ onBeforeMount(async () => {
 
 const newestEvent = ref({})
 const createNewEvent = async (newEvent) => {
+  const mailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (
     eventGetter.value
       .filter(
@@ -52,7 +53,11 @@ const createNewEvent = async (newEvent) => {
       )
   ) {
     alert('Someone already booked please change start time or clinic')
-  } else {
+  } else if(newEvent.bookingEmail.toLowerCase().match(mailFormat) === null)
+  {
+    alert('Email Not Valid')
+  }
+    else {
     const res = await fetch(`${webUrl}/events`, {
       method: 'POST',
       headers: {

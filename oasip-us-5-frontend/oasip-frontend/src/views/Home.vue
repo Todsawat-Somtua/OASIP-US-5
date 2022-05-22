@@ -8,13 +8,17 @@ const eventsGetted = ref([])
 const isModalOpen = ref(false)
 const selectCategory = ref('All')
 const selectTime = ref('All')
+const optionTime = ['Upcoming','Past']
+const selectDate = ref('')
+const empty = ref('')
+
 const showModal = (e) => {
   isModalOpen.value = e
 }
 
 const webUrl = import.meta.env.PROD
   ? import.meta.env.VITE_API_URL
-  : ' /api'
+  : 'http://localhost:8080/api'
 
 const currentEventDetail = ref({})
 
@@ -51,14 +55,23 @@ onBeforeMount(async () => {
 const eventUpdate = async (editingEvent) => {
   if (
     eventsGetted.value
-      .filter((event) => event.eventId === editingEvent.eventId)
+      .filter(
+        (event) =>
+          event.eventCategory.eventCategoryId === editingEvent.eventCategoryId
+      )
       .some(
         (event) =>
-          event.eventStartTime === editingEvent.eventStartTime ||
-          moment(event.eventStartTime)
-            .utc()
-            .add(event.eventCategory.eventDuration, 'm')
-            .format() >= editingEvent.eventStartTime
+          (event.eventStartTime < editingEvent.eventStartTime &&
+            moment(event.eventStartTime)
+              .utc()
+              .add(event.eventDuration, 'm')
+              .format() > editingEvent.eventStartTime) ||
+          (event.eventStartTime >= editingEvent.eventStartTime &&
+            event.eventStartTime <
+              moment(editingEvent.eventStartTime)
+                .utc()
+                .add(event.eventDuration, 'm')
+                .format())
       )
   ) {
     alert('Someone already booked please change start time or clinic')
@@ -90,8 +103,6 @@ const eventUpdate = async (editingEvent) => {
   }
 }
 
-
-
 // Delete
 const removeEvent = async (deleteEventId) => {
   if (confirm('Are you sure to delete') == true) {
@@ -108,23 +119,79 @@ const removeEvent = async (deleteEventId) => {
     console.log('cancel')
   }
 }
-const filterCategory = computed(() => {
-  if (selectCategory.value === 'All') {
-    return eventsGetted.value
-  }
-  else{
-    return eventsGetted.value.filter((event) => event.eventCategory.eventCategoryName === selectCategory.value)
-    
-  }
+const filterDate = (ar) =>{
+  empty.value = 'No Scheduled Events'
+  return ar.filter((event)=> moment(event.eventStartTime).format('DD/MM/YYYY') === moment(selectDate.value).format('DD/MM/YYYY'))
+}
+const filterTime = (ar)=>{
+ if (selectTime.value === 'Upcoming'){
+    return ar.filter((event) => moment(event.eventStartTime) >= moment()) 
+  } else if(selectTime.value === 'Past'){
+    return ar.filter((event) => moment(event.eventStartTime)  < moment()) 
+  } 
+}
+
+const filterCategory = (ar) => {
+    return ar.filter((event) => event.eventCategory.eventCategoryName === selectCategory.value)
+}
+
+const filterResult = computed(()=>{
+  if (selectDate.value === '') {
+    if (selectCategory.value === 'All' && selectTime.value === 'All') {
+    empty.value = 'No Scheduled Events'
+      return eventsGetted.value
+  } else if (selectCategory.value !== 'All' && selectTime.value === 'All') {
+    empty.value = 'No Scheduled Events'
+    return filterCategory(eventsGetted.value)
+  } else if (selectCategory.value === 'All' && selectTime.value === 'Upcoming') {
+    empty.value = 'No On-Going or Upcoming Events'
+    return filterTime(eventsGetted.value)
+  } else if (selectCategory.value === 'All' && selectTime.value === 'Past') {
+    empty.value = 'No Past Events'
+    return filterTime(eventsGetted.value)
+  } else {
+    const findCat = filterCategory(eventsGetted.value)
+    return filterTime(findCat)
+  } 
+    } else {
+      if (selectCategory.value !== 'All' && selectTime.value === 'All') {
+        const findCat = filterCategory(eventsGetted.value)
+        empty.value = 'No Scheduled Events'
+        return filterDate(findCat)
+      } else if (selectCategory.value === 'All' && selectTime.value === 'Upcoming'){
+        const findTime = filterTime(eventsGetted.value)
+        empty.value = 'No On-Going or Upcoming Events'
+        return filterDate(findTime)
+      } else if (selectCategory.value === 'All' && selectTime.value === 'Past'){
+        const findTime = filterTime(eventsGetted.value)
+        empty.value = 'No Past Events'
+        return filterDate(findTime)
+      } else if (selectCategory.value !== 'All' && selectTime.value === 'Upcoming') {
+        const findCat = filterCategory(eventsGetted.value)
+        const findTime = filterTime(findCat)
+        empty.value = 'No On-Going or Upcoming Events'
+        return filterDate(findTime)
+      } else if (selectCategory.value !== 'All' && selectTime.value === 'Past') {
+        const findCat = filterCategory(eventsGetted.value)
+        const findTime = filterTime(findCat)
+        empty.value = 'No Past Events'
+        return filterDate(findTime)
+      } else {
+        return filterDate(eventsGetted.value)
+      }
+    }
 })
+
 </script>
 
 <template>
 <div class="flex justify-end mt-4 mr-4">
+  <input v-model="selectDate" type="date" 
+  class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mr-4"/>
   <select class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mr-4"
-  v-model="selectCategory"
+  v-model="selectCategory" 
   >
-    <option option value="All">All</option>
+    <option option value="All">All Category</option>
     <option v-for="category in eventCategoriesGetter" :value="category.eventCategoryName" :key="category.eventCategoryId">
     {{ category.eventCategoryName }}
     </option>
@@ -132,24 +199,22 @@ const filterCategory = computed(() => {
   <select class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
   v-model="selectTime"
   >
-    <option option value="All">All</option>
-    <option>Day</option>
-    <option>Upcoming</option>
-    <option>Past</option>
+    <option option value="All">All Time</option>
+    <option v-for="option in optionTime"> {{ option }} </option>
   </select>
 
 </div>
   <div>
     <!-- event empty -->
-    <div v-show="filterCategory.length === 0">
-      <div class="flex justify-center text-7xl text-gray-400 mt-64">
-        No schedule
+    <div v-if="filterResult.length === 0">
+      <div class="flex justify-center text-7xl text-gray-500 mt-64">
+        {{ empty }}
       </div>
     </div>
     <!-- Show event -->
-    <div v-show="filterCategory.length !== 0">
+    <div v-if="filterResult.length !== 0">
       <event-table
-        :events="filterCategory"
+        :events="filterResult"
         @deleteEvent="removeEvent"
         @showDetail="currentEvent"
       />

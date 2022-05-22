@@ -1,8 +1,18 @@
 <script setup>
 import EventCategoryTable from '../components/EventCategoryTable.vue';
+import CategoryEdit from '../components/CategoryEdit.vue';
 import { ref,onBeforeMount} from 'vue';
 
 const eventCategoriesGetter = ref([])
+const isModalOpen = ref(false)
+const selectCategory = ref({})
+const showModal = (e) => {
+  isModalOpen.value = e
+}
+const currentCategory = (e) => {
+  selectCategory.value = e
+  showModal(true)
+}
 const webUrl = import.meta.env.PROD
   ? import.meta.env.VITE_API_URL
   : 'http://localhost:8080/api'
@@ -19,9 +29,9 @@ onBeforeMount(async () => {
     (a, b) => (b.eventCategoryId) - (a.eventCategoryId)
   )
 })
-const updateCategory = async (editingCategory) => {
+const updatedCategory = async (editingCategory) => {
   if (editingCategory.eventCategoryName === "" ) {
-    alert('please insert Movie Name and Genre')
+    alert('Plase insert category name')
   } else {
     const res = await fetch(`${webUrl}eventCategories/${editingCategory.eventCategoryId}`, {
     method: 'PUT',
@@ -44,7 +54,12 @@ const updateCategory = async (editingCategory) => {
  
 <template>
 <div>
-    <event-category-table :categories="eventCategoriesGetter" @updateCategory="updateCategory"></event-category-table>
+  <div>
+    <event-category-table :categories="eventCategoriesGetter" @passCategory="currentCategory" />
+  </div>
+    <div v-show="isModalOpen">
+    <category-edit :editingCategory="selectCategory" @close="showModal" @updateCategory="updatedCategory" />
+    </div>
 </div>
 </template>
  
