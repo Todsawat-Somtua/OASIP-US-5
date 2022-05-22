@@ -1,7 +1,7 @@
 <script setup>
-import EventCategoryTable from '../components/EventCategoryTable.vue';
-import CategoryEdit from '../components/CategoryEdit.vue';
-import { ref,onBeforeMount} from 'vue';
+import EventCategoryTable from '../components/EventCategoryTable.vue'
+import CategoryEdit from '../components/CategoryEdit.vue'
+import { ref, onBeforeMount } from 'vue'
 
 const eventCategoriesGetter = ref([])
 const isModalOpen = ref(false)
@@ -26,43 +26,68 @@ const getEventCategory = async () => {
 onBeforeMount(async () => {
   await getEventCategory()
   eventCategoriesGetter.value.sort(
-    (a, b) => (b.eventCategoryId) - (a.eventCategoryId)
+    (a, b) => b.eventCategoryId - a.eventCategoryId
   )
 })
 const updatedCategory = async (editingCategory) => {
-  if (editingCategory.eventCategoryName === "" ) {
+  if (editingCategory.eventCategoryName === '') {
     alert('Plase insert category name')
+  } else if (
+    eventCategoriesGetter.value.some(
+      (e) => e.eventCategoryName === editingCategory.eventCategoryName
+    )
+  ) {
+    alert('Have a duplicate category name')
   } else {
-    const res = await fetch(`${webUrl}eventCategories/${editingCategory.eventCategoryId}`, {
-    method: 'PUT',
-    headers:{
-      'content-type' : 'application/json'
-    },
-    body: JSON.stringify({ eventCategoryName: editingCategory.eventCategoryName, eventCategoryDescription: editingCategory.eventCategoryDescription, eventDuration: editingCategory.eventDuration})
-    })
+    const res = await fetch(
+      `${webUrl}eventCategories/${editingCategory.eventCategoryId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          eventCategoryName: editingCategory.eventCategoryName,
+          eventCategoryDescription: editingCategory.eventCategoryDescription,
+          eventDuration: editingCategory.eventDuration,
+        }),
+      }
+    )
     if (res.status === 200) {
       const editedCategory = await res.json()
-      eventCategoriesGetter.value = eventCategoriesGetter.value.map((category) => 
-      category.eventCategoryId === editedCategory.eventCategoryId
-      ? {...category, eventCategoryName: editedCategory.eventCategoryName, eventCategoryDescription: editedCategory.eventCategoryDescription, eventDuration: editedCategory.eventDuration} 
-      : category
+      eventCategoriesGetter.value = eventCategoriesGetter.value.map(
+        (category) =>
+          category.eventCategoryId === editedCategory.eventCategoryId
+            ? {
+                ...category,
+                eventCategoryName: editedCategory.eventCategoryName,
+                eventCategoryDescription:
+                  editedCategory.eventCategoryDescription,
+                eventDuration: editedCategory.eventDuration,
+              }
+            : category
       )
     } else console.log('error, cannot be added')
   }
 }
 </script>
- 
-<template>
-<div>
-  <div>
-    <event-category-table :categories="eventCategoriesGetter" @passCategory="currentCategory" />
-  </div>
-    <div v-show="isModalOpen">
-    <category-edit :editingCategory="selectCategory" @close="showModal" @updateCategory="updatedCategory" />
-    </div>
-</div>
-</template>
- 
-<style>
 
-</style>
+<template>
+  <div>
+    <div>
+      <event-category-table
+        :categories="eventCategoriesGetter"
+        @passCategory="currentCategory"
+      />
+    </div>
+    <div v-show="isModalOpen">
+      <category-edit
+        :editingCategory="selectCategory"
+        @close="showModal"
+        @updateCategory="updatedCategory"
+      />
+    </div>
+  </div>
+</template>
+
+<style></style>

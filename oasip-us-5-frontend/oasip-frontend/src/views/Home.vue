@@ -8,7 +8,7 @@ const eventsGetted = ref([])
 const isModalOpen = ref(false)
 const selectCategory = ref('All')
 const selectTime = ref('All')
-const optionTime = ['Upcoming','Past']
+const optionTime = ['Upcoming', 'Past']
 const selectDate = ref('')
 const empty = ref('')
 
@@ -119,98 +119,128 @@ const removeEvent = async (deleteEventId) => {
     console.log('cancel')
   }
 }
-const upcomingEvent = (ar) =>{
-  ar.sort((a,b) => {return moment(a.eventStartTime) - moment(b.eventStartTime)})
+const upcomingEvent = (ar) => {
+  return ar.sort((a, b) => moment(a.eventStartTime) - moment(b.eventStartTime))
 }
-const filterDate = (ar) =>{
+const filterDate = (ar) => {
   empty.value = 'No Scheduled Events'
-  return ar.filter((event)=> moment(event.eventStartTime).format('DD/MM/YYYY') === moment(selectDate.value).format('DD/MM/YYYY'))
+  return ar.filter(
+    (event) =>
+      moment(event.eventStartTime).format('DD/MM/YYYY') ===
+      moment(selectDate.value).format('DD/MM/YYYY')
+  )
 }
-const filterTime = (ar)=>{
- if (selectTime.value === 'Upcoming'){
-    return ar.filter((event) => moment(event.eventStartTime) >= moment()) 
-  } else if (selectTime.value === 'Past'){
-    return ar.filter((event) => moment(event.eventStartTime)  < moment()) 
+const filterTime = (ar) => {
+  if (selectTime.value === 'Upcoming') {
+    return ar.filter((event) => moment(event.eventStartTime) >= moment())
+  } else if (selectTime.value === 'Past') {
+    return ar.filter((event) => moment(event.eventStartTime) < moment())
   }
 }
 
 const filterCategory = (ar) => {
-    return ar.filter((event) => event.eventCategory.eventCategoryName === selectCategory.value)
+  return ar.filter(
+    (event) => event.eventCategory.eventCategoryName === selectCategory.value
+  )
 }
 
-const filterResult = computed(()=>{
+const filterResult = computed(() => {
   if (selectDate.value === '') {
     if (selectCategory.value === 'All' && selectTime.value === 'All') {
-    empty.value = 'No Scheduled Events'
+      empty.value = 'No Scheduled Events'
       return eventsGetted.value
-  } else if (selectCategory.value === 'All' && selectTime.value === 'Upcoming') {
-    const upcomEvt = filterTime(eventsGetted.value)
-    empty.value = 'No On-Going or Upcoming Events'
-    return upcomingEvent(upcomEvt)
-  } else if (selectCategory.value === 'All' && selectTime.value === 'Past') {
-    empty.value = 'No Past Events'
-    return filterTime(eventsGetted.value)
-  } else if (selectCategory.value !== 'All' && selectTime.value === 'All') {
-    empty.value = 'No Scheduled Events'
-    return filterCategory(eventsGetted.value)
-  } else if (selectCategory.value !== 'All' && selectTime.value === 'Upcoming') {
-    const findCat = filterCategory(eventsGetted.value)
-    return filterTime(findCat)
-  } else {
-    const findCat = filterCategory(eventsGetted.value)
-    return filterTime(findCat)
-  } 
+    } else if (
+      selectCategory.value === 'All' &&
+      selectTime.value === 'Upcoming'
+    ) {
+      const incoming = filterTime(eventsGetted.value)
+      empty.value = 'No On-Going or Upcoming Events'
+      return upcomingEvent(incoming)
+    } else if (selectCategory.value === 'All' && selectTime.value === 'Past') {
+      empty.value = 'No Past Events'
+      return filterTime(eventsGetted.value)
+    } else if (selectCategory.value !== 'All' && selectTime.value === 'All') {
+      empty.value = 'No Scheduled Events'
+      return filterCategory(eventsGetted.value)
+    } else if (
+      selectCategory.value !== 'All' &&
+      selectTime.value === 'Upcoming'
+    ) {
+      const findCat = filterCategory(eventsGetted.value)
+      const findTime = filterTime(findCat)
+      return upcomingEvent(findTime)
     } else {
-      if (selectCategory.value !== 'All' && selectTime.value === 'All') {
-        const findCat = filterCategory(eventsGetted.value)
-        empty.value = 'No Scheduled Events'
-        return filterDate(findCat)
-      } else if (selectCategory.value !== 'All' && selectTime.value === 'Upcoming') {
-        const findCat = filterCategory(eventsGetted.value)
-        const findTime = filterTime(findCat)
-        empty.value = 'No On-Going or Upcoming Events'
-        return filterDate(findTime)
-      } else if (selectCategory.value !== 'All' && selectTime.value === 'Past') {
-        const findCat = filterCategory(eventsGetted.value)
-        const findTime = filterTime(findCat)
-        empty.value = 'No Past Events'
-        return filterDate(findTime)
-      } else if (selectCategory.value === 'All' && selectTime.value === 'Upcoming'){
-        const findTime = filterTime(eventsGetted.value)
-        empty.value = 'No On-Going or Upcoming Events'
-        return filterDate(findTime)
-      } else if (selectCategory.value === 'All' && selectTime.value === 'Past'){
-        const findTime = filterTime(eventsGetted.value)
-        empty.value = 'No Past Events'
-        return filterDate(findTime)
-      } else {
-        return filterDate(eventsGetted.value)
-      }
+      const findCat = filterCategory(eventsGetted.value)
+      return filterTime(findCat)
     }
+  } else {
+    if (selectCategory.value !== 'All' && selectTime.value === 'All') {
+      const findCat = filterCategory(eventsGetted.value)
+      empty.value = 'No Scheduled Events'
+      return filterDate(findCat)
+    } else if (
+      selectCategory.value !== 'All' &&
+      selectTime.value === 'Upcoming'
+    ) {
+      const findCat = filterCategory(eventsGetted.value)
+      const findTime = filterTime(findCat)
+      const findDate = filterDate(findTime)
+      empty.value = 'No On-Going or Upcoming Events'
+      return upcomingEvent(findDate)
+    } else if (selectCategory.value !== 'All' && selectTime.value === 'Past') {
+      const findCat = filterCategory(eventsGetted.value)
+      const findTime = filterTime(findCat)
+      empty.value = 'No Past Events'
+      return filterDate(findTime)
+    } else if (
+      selectCategory.value === 'All' &&
+      selectTime.value === 'Upcoming'
+    ) {
+      const findTime = filterTime(eventsGetted.value)
+      const findDate = filterDate(findTime)
+      empty.value = 'No On-Going or Upcoming Events'
+      return upcomingEvent(findDate)
+    } else if (selectCategory.value === 'All' && selectTime.value === 'Past') {
+      const findTime = filterTime(eventsGetted.value)
+      empty.value = 'No Past Events'
+      return filterDate(findTime)
+    } else {
+      return filterDate(eventsGetted.value)
+    }
+  }
 })
-
 </script>
 
 <template>
-<div class="flex justify-end mt-4 mr-4">
-  <input v-model="selectDate" type="date" 
-  class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mr-4"/>
-  <select class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mr-4"
-  v-model="selectCategory" 
-  >
-    <option option value="All">All Category</option>
-    <option v-for="category in eventCategoriesGetter" :value="category.eventCategoryName" :key="category.eventCategoryId">
-    {{ category.eventCategoryName }}
-    </option>
-  </select>
-  <select class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-  v-model="selectTime"
-  >
-    <option option value="All">All Time</option>
-    <option v-for="option in optionTime"> {{ option }} </option>
-  </select>
-
-</div>
+  <div class="flex justify-end mt-4 mr-4">
+    <input
+      v-model="selectDate"
+      type="date"
+      class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mr-4"
+    />
+    <select
+      class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mr-4"
+      v-model="selectCategory"
+    >
+      <option option value="All">All Category</option>
+      <option
+        v-for="category in eventCategoriesGetter"
+        :value="category.eventCategoryName"
+        :key="category.eventCategoryId"
+      >
+        {{ category.eventCategoryName }}
+      </option>
+    </select>
+    <select
+      class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      v-model="selectTime"
+    >
+      <option option value="All">All Time</option>
+      <option v-for="(option, index) in optionTime" :key="index">
+        {{ option }}
+      </option>
+    </select>
+  </div>
   <div>
     <!-- event empty -->
     <div v-if="filterResult.length === 0">
@@ -233,7 +263,6 @@ const filterResult = computed(()=>{
         @updateEvent="eventUpdate"
       />
     </div>
-    
   </div>
 </template>
 
