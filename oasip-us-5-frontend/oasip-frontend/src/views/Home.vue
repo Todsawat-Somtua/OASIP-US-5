@@ -119,6 +119,9 @@ const removeEvent = async (deleteEventId) => {
     console.log('cancel')
   }
 }
+const upcomingEvent = (ar) =>{
+  ar.sort((a,b) => {return moment(a.eventStartTime) - moment(b.eventStartTime)})
+}
 const filterDate = (ar) =>{
   empty.value = 'No Scheduled Events'
   return ar.filter((event)=> moment(event.eventStartTime).format('DD/MM/YYYY') === moment(selectDate.value).format('DD/MM/YYYY'))
@@ -126,9 +129,9 @@ const filterDate = (ar) =>{
 const filterTime = (ar)=>{
  if (selectTime.value === 'Upcoming'){
     return ar.filter((event) => moment(event.eventStartTime) >= moment()) 
-  } else if(selectTime.value === 'Past'){
+  } else if (selectTime.value === 'Past'){
     return ar.filter((event) => moment(event.eventStartTime)  < moment()) 
-  } 
+  }
 }
 
 const filterCategory = (ar) => {
@@ -140,15 +143,19 @@ const filterResult = computed(()=>{
     if (selectCategory.value === 'All' && selectTime.value === 'All') {
     empty.value = 'No Scheduled Events'
       return eventsGetted.value
-  } else if (selectCategory.value !== 'All' && selectTime.value === 'All') {
-    empty.value = 'No Scheduled Events'
-    return filterCategory(eventsGetted.value)
   } else if (selectCategory.value === 'All' && selectTime.value === 'Upcoming') {
+    const upcomEvt = filterTime(eventsGetted.value)
     empty.value = 'No On-Going or Upcoming Events'
-    return filterTime(eventsGetted.value)
+    return upcomingEvent(upcomEvt)
   } else if (selectCategory.value === 'All' && selectTime.value === 'Past') {
     empty.value = 'No Past Events'
     return filterTime(eventsGetted.value)
+  } else if (selectCategory.value !== 'All' && selectTime.value === 'All') {
+    empty.value = 'No Scheduled Events'
+    return filterCategory(eventsGetted.value)
+  } else if (selectCategory.value !== 'All' && selectTime.value === 'Upcoming') {
+    const findCat = filterCategory(eventsGetted.value)
+    return filterTime(findCat)
   } else {
     const findCat = filterCategory(eventsGetted.value)
     return filterTime(findCat)
@@ -158,14 +165,6 @@ const filterResult = computed(()=>{
         const findCat = filterCategory(eventsGetted.value)
         empty.value = 'No Scheduled Events'
         return filterDate(findCat)
-      } else if (selectCategory.value === 'All' && selectTime.value === 'Upcoming'){
-        const findTime = filterTime(eventsGetted.value)
-        empty.value = 'No On-Going or Upcoming Events'
-        return filterDate(findTime)
-      } else if (selectCategory.value === 'All' && selectTime.value === 'Past'){
-        const findTime = filterTime(eventsGetted.value)
-        empty.value = 'No Past Events'
-        return filterDate(findTime)
       } else if (selectCategory.value !== 'All' && selectTime.value === 'Upcoming') {
         const findCat = filterCategory(eventsGetted.value)
         const findTime = filterTime(findCat)
@@ -174,6 +173,14 @@ const filterResult = computed(()=>{
       } else if (selectCategory.value !== 'All' && selectTime.value === 'Past') {
         const findCat = filterCategory(eventsGetted.value)
         const findTime = filterTime(findCat)
+        empty.value = 'No Past Events'
+        return filterDate(findTime)
+      } else if (selectCategory.value === 'All' && selectTime.value === 'Upcoming'){
+        const findTime = filterTime(eventsGetted.value)
+        empty.value = 'No On-Going or Upcoming Events'
+        return filterDate(findTime)
+      } else if (selectCategory.value === 'All' && selectTime.value === 'Past'){
+        const findTime = filterTime(eventsGetted.value)
         empty.value = 'No Past Events'
         return filterDate(findTime)
       } else {
