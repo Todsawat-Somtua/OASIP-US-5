@@ -7,13 +7,14 @@ import moment from 'moment'
 const eventsGetted = ref([])
 const isModalOpen = ref(false)
 const selectCategory = ref('All')
+const selectTime = ref('All')
 const showModal = (e) => {
   isModalOpen.value = e
 }
 
 const webUrl = import.meta.env.PROD
   ? import.meta.env.VITE_API_URL
-  : 'http://localhost:8080/api'
+  : ' /api'
 
 const currentEventDetail = ref({})
 
@@ -107,14 +108,15 @@ const removeEvent = async (deleteEventId) => {
     console.log('cancel')
   }
 }
-// const filterCategory = computed(() => {
-//   if (selectCategory.value === 'All') {
-//     return eventCategoriesGetter.value
-//   } else {
-//     return eventCategoriesGetter.value.filter((event) => event.eventCategoriesGetter === selectCategory.value)
-//   }
-// })
-
+const filterCategory = computed(() => {
+  if (selectCategory.value === 'All') {
+    return eventsGetted.value
+  }
+  else{
+    return eventsGetted.value.filter((event) => event.eventCategory.eventCategoryName === selectCategory.value)
+    
+  }
+})
 </script>
 
 <template>
@@ -123,14 +125,15 @@ const removeEvent = async (deleteEventId) => {
   v-model="selectCategory"
   >
     <option option value="All">All</option>
-    <option v-for="category in eventCategoriesGetter" :value="category.eventCategoryId" :key="category.eventCategoryId">
+    <option v-for="category in eventCategoriesGetter" :value="category.eventCategoryName" :key="category.eventCategoryId">
     {{ category.eventCategoryName }}
     </option>
   </select>
   <select class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+  v-model="selectTime"
   >
     <option option value="All">All</option>
-    <option>Today</option>
+    <option>Day</option>
     <option>Upcoming</option>
     <option>Past</option>
   </select>
@@ -138,15 +141,15 @@ const removeEvent = async (deleteEventId) => {
 </div>
   <div>
     <!-- event empty -->
-    <div v-show="eventsGetted.length === 0">
-      <div class="flex justify-center text-7xl text-gray-400 mt-10">
+    <div v-show="filterCategory.length === 0">
+      <div class="flex justify-center text-7xl text-gray-400 mt-64">
         No schedule
       </div>
     </div>
     <!-- Show event -->
-    <div v-show="eventsGetted.length !== 0">
+    <div v-show="filterCategory.length !== 0">
       <event-table
-        :events="eventsGetted"
+        :events="filterCategory"
         @deleteEvent="removeEvent"
         @showDetail="currentEvent"
       />
