@@ -28,7 +28,6 @@ onBeforeMount(async () => {
   await getEvent()
 })
 
-const isCollape = ref([])
 const newestEvent = ref({})
 const createNewEvent = async (newEvent) => {
   if (
@@ -39,11 +38,17 @@ const createNewEvent = async (newEvent) => {
       )
       .some(
         (event) =>
-          event.eventStartTime === newEvent.eventStartTime ||
-          moment(event.eventStartTime)
-            .utc()
-            .add(event.eventCategory.eventDuration, 'm')
-            .format() >= newEvent.eventStartTime
+          (event.eventStartTime < newEvent.eventStartTime &&
+            moment(event.eventStartTime)
+              .utc()
+              .add(event.eventDuration, 'm')
+              .format() > newEvent.eventStartTime) ||
+          (event.eventStartTime >= newEvent.eventStartTime &&
+            event.eventStartTime <
+              moment(newEvent.eventStartTime)
+                .utc()
+                .add(event.eventDuration, 'm')
+                .format())
       )
   ) {
     alert('Someone already booked please change start time or clinic')
@@ -65,7 +70,7 @@ const createNewEvent = async (newEvent) => {
       const addedEvent = await res.json()
       eventGetter.value.push(addedEvent)
       newestEvent.value = {}
-      router.replace({ path: '/' })
+      router.replace({ path: '/home' })
       alert('Added Successfully')
     } else {
       console.log('error, cannot added')
