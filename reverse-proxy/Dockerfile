@@ -1,2 +1,2 @@
-FROM node:14.15.4-alpine3.12 
+FROM nginx:stable-alpine
 COPY nginx.conf /etc/nginx/nginx.conf

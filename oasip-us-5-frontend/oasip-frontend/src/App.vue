@@ -7,7 +7,7 @@
     >
       <div>
         <router-link :to="{ name: 'Home' }" class="flex items-center">
-          <img src="../mylogo.png" ref="TeawKai" class="mr-3 h-6 sm:h-9" />
+          <img src="./assets/mylogo.png" ref="TeawKai" class="mr-3 h-6 sm:h-9" />
           TeawKai or TeawPed are Better
         </router-link>
       </div>

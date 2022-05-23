@@ -28,16 +28,15 @@ services:
         "spring.jpa.hibernate.naming.physical-strategy":"org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
       }'
 
-  
+
   vue:
     build: 
       context: "./oasip-us-5-frontend/oasip-frontend"
       args:
         - VITE_API_URL=/us5/api
-    ports:
-      - "80:80"
     depends_on:
       - spring
+
 
   reverse:
     build: "./reverse-proxy"
