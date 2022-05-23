@@ -29,7 +29,7 @@ services:
       }'
 
   
-  nginx:
+  vue:
     build: 
       context: "./oasip-us-5-frontend/oasip-frontend"
       args:
@@ -38,3 +38,8 @@ services:
       - "80:80"
     depends_on:
       - spring
+
+  reverse:
+    build: "./reverse-proxy"
+    ports:
+      - "80:80"
