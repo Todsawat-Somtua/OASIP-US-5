@@ -9,6 +9,7 @@ const selectCategory = ref({})
 const showModal = (e) => {
   isModalOpen.value = e
 }
+
 const currentCategory = (e) => {
   selectCategory.value = e
   showModal(true)
@@ -32,15 +33,16 @@ onBeforeMount(async () => {
 const updatedCategory = async (editingCategory) => {
   if (editingCategory.eventCategoryName === '') {
     alert('Plase insert category name')
-  } else if (
-    eventCategoriesGetter.value.some(
-      (e) => e.eventCategoryName === editingCategory.eventCategoryName
-    )
-  ) {
-    alert('Have a duplicate category name')
+  // } else if (
+  //   eventCategoriesGetter.value.some(
+  //     (e) => e.eventCategoryName === editingCategory.eventCategoryName
+  //   )
+  // ) {
+  //   alert('Have a duplicate category name')
+  } else if (editingCategory.eventDuration > 480 || editingCategory.eventDuration < 1){
+    alert('Invalid time must be between 1 - 480 minutes')
   } else {
-    const res = await fetch(
-      `${webUrl}eventCategories/${editingCategory.eventCategoryId}`,
+    const res = await fetch(`${webUrl}/eventCategories/${editingCategory.eventCategoryId}`,
       {
         method: 'PUT',
         headers: {
@@ -66,8 +68,12 @@ const updatedCategory = async (editingCategory) => {
                 eventDuration: editedCategory.eventDuration,
               }
             : category
-      )
-    } else console.log('error, cannot be added')
+      ) 
+      showModal(false)
+      alert('Edit Successfully')
+    } else if(res.status === 404){
+      alert('Have a duplicate category name')
+    }else console.log('error, cannot be added')
   }
 }
 </script>

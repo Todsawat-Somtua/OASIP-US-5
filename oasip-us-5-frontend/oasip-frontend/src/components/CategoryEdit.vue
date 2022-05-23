@@ -8,7 +8,7 @@ const props = defineProps({
 })
 const editingCategory = computed(() => {
   return {
-    eventCategoryId: props.editingCategory.eventCategoryId,
+    eventCategoryId : props.editingCategory.eventCategoryId,
     eventCategoryName: props.editingCategory.eventCategoryName,
     eventDuration: props.editingCategory.eventDuration,
     eventCategoryDescription: props.editingCategory.eventCategoryDescription,
@@ -55,19 +55,19 @@ const editingCategory = computed(() => {
         <div class="p-6 space-y-6">
             <div class="mb-6">
               <label for="name" class="text-lg leading-relaxed text-gray-500 dark:text-gray-400">Category Name: </label>
-              <input type="text" name="name" min="100" 
+              <input type="text" name="name" maxlength="100" placeholder="Insert category name" 
               class="block mt-3 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               v-model="editingCategory.eventCategoryName">
             </div>
             <div class="mb-6">
-              <label for="duration" class="text-lg leading-relaxed text-gray-500 dark:text-gray-400">Event Duration: </label>
-              <input type="number" name="duration" min="1" max="480"
+              <label for="duration" class="text-lg leading-relaxed text-gray-500 dark:text-gray-400">Event Duration: (Between 1-480 minutes)</label>
+              <input type="number" name="duration" min="1" max="480" placeholder="Insert duration"
               class="block mt-3 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               v-model="editingCategory.eventDuration">
             </div>
             <div class="mb-6">
               <label for="description" class="text-lg leading-relaxed text-gray-500 dark:text-gray-400">Category Description:</label>
-              <textarea name="description" maxlenght="500" rows="3"
+              <textarea name="description" maxlenght="500" rows="3" placeholder="Insert category description"
               class="block mt-3 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               v-model="editingCategory.eventCategoryDescription" />
             </div>
@@ -77,8 +77,8 @@ const editingCategory = computed(() => {
         >
           <button
           @click="$emit('updateCategory',{
-                eventCategoryId: editingCategory.eventCategoryId,
-                eventCategoryName: editingCategory.eventCategoryName,
+                eventCategoryId : editingCategory.eventCategoryId,
+                eventCategoryName: editingCategory.eventCategoryName.trim(),
                 eventCategoryDescription: editingCategory.eventCategoryDescription,
                 eventDuration: editingCategory.eventDuration
               })"

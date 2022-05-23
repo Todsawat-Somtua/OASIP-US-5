@@ -123,7 +123,6 @@ const upcomingEvent = (ar) => {
   return ar.sort((a, b) => moment(a.eventStartTime) - moment(b.eventStartTime))
 }
 const filterDate = (ar) => {
-  empty.value = 'No Scheduled Events'
   return ar.filter(
     (event) =>
       moment(event.eventStartTime).format('DD/MM/YYYY') ===
@@ -173,6 +172,7 @@ const filterResult = computed(() => {
       const findCat = filterCategory(eventsGetted.value)
       return filterTime(findCat)
     }
+    // ByDate
   } else {
     if (selectCategory.value !== 'All' && selectTime.value === 'All') {
       const findCat = filterCategory(eventsGetted.value)
@@ -205,7 +205,8 @@ const filterResult = computed(() => {
       empty.value = 'No Past Events'
       return filterDate(findTime)
     } else {
-      return filterDate(eventsGetted.value)
+      const filtedDate = filterDate(eventsGetted.value)
+      return upcomingEvent(filtedDate)
     }
   }
 })

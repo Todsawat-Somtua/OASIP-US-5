@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventCategoryDTO {
-    private Integer eventCategoryId;
+//    private Integer eventCategoryId;
     @NotBlank(message = "Event category name is empty")
     @Size(max = 100, message = "Event category name is more than 100 char")
     private String eventCategoryName;
