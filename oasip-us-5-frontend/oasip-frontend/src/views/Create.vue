@@ -78,11 +78,7 @@ const createNewEvent = async (newEvent) => {
       router.replace({ path: '/home' })
       alert('Added Successfully')
 
-    } 
-    else if(res.status === 400){
-      alert('Please insert future time')
-    }
-    else {
+    } else {
       console.log('error, cannot added')
     }
   }

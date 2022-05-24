@@ -29,7 +29,7 @@ const editingCategory = computed(() => {
           class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600"
         >
           <h1 class="text-xl font-medium text-gray-900 dark:text-white">
-            Hi
+            Edit Category
           </h1>
           <button
             type="button"
