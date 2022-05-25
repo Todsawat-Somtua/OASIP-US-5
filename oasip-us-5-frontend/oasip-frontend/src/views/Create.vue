@@ -53,11 +53,15 @@ const createNewEvent = async (newEvent) => {
       )
   ) {
     alert('Someone already booked please change start time or clinic')
-  } else if(newEvent.bookingEmail.toLowerCase().match(mailFormat) === null)
-  {
+  } else if (newEvent.bookingEmail.toLowerCase().match(mailFormat) === null) {
     alert('Email Not Valid')
-  }
-    else {
+  } else if (newEvent.bookingName.length > 100) {
+    alert('Your name is too long')
+  } else if (newEvent.bookingEmail.length > 100) {
+    alert('Your name is too long')
+  } else if (newEvent.bookingNotes.length > 500) {
+    alert('Your notes is toooo Long')
+  } else {
     const res = await fetch(`${webUrl}/events`, {
       method: 'POST',
       headers: {
@@ -77,7 +81,6 @@ const createNewEvent = async (newEvent) => {
       newestEvent.value = {}
       router.replace({ path: '/home' })
       alert('Added Successfully')
-
     } else {
       console.log('error, cannot added')
     }

@@ -14,9 +14,10 @@ const currentDate = moment().format('YYYY-MM-DDTHH:mm')
 const editingEvent = computed(() => {
   return {
     eventId: props.eventDetail.eventId,
-    eventStartTime: props.eventDetail.eventStartTime
-      ? moment().format('YYYY-MM-DDTHH:mm')
-      : moment(props.eventDetail.eventStartTime).format('YYYY-MM-DDTHH:mm'),
+    eventStartTime:
+      props.eventDetail.eventStartTime === null
+        ? moment().format('YYYY-MM-DDTHH:mm')
+        : moment(props.eventDetail.eventStartTime).format('YYYY-MM-DDTHH:mm'),
     eventNotes: props.eventDetail.eventNotes,
   }
 })
@@ -82,8 +83,8 @@ const editingEvent = computed(() => {
             <input
               v-if="isEditing"
               type="datetime-local"
-              :min="currentDate"
               class="p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              :min="currentDate"
               v-model="editingEvent.eventStartTime"
             />
             <label v-else>
