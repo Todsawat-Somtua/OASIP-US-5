@@ -20,7 +20,7 @@ public class EventDTO {
     @Size(max = 100, message = "Max character of the name is 100 characters")
     private String bookingName;
     @NotEmpty(message = "Your email is Empty, Please insert your email")
-    @Email(message = "Your email is invalid, Please insert in the form email@address.com")
+    @Email(message = "Your email is invalid, Please insert in the form email@address.com", regexp = "^(.+)@(\\S+)$")
     @Size(max = 100, message = "Max character of the email is 100 characters")
     private String bookingEmail;
     @NotNull(message = "Time is empty, Insert time")
