@@ -56,11 +56,11 @@ const createNewEvent = async (newEvent) => {
   } else if (newEvent.bookingEmail.toLowerCase().match(mailFormat) === null) {
     alert('Email Not Valid')
   } else if (newEvent.bookingName.length > 100) {
-    alert('Your name is too long')
+    alert('Your name is too long than 100 characters\nPlease change your name to booking.')
   } else if (newEvent.bookingEmail.length > 100) {
-    alert('Your name is too long')
-  } else if (newEvent.bookingNotes.length > 500) {
-    alert('Your notes is toooo Long')
+    alert('Your Email is longer than 100 characters\nPlease change your email to booking')
+  } else if (newEvent.eventNotes.length > 500) {
+    alert('Your notes is longer than 500 characters\nPlease rewrite notes to under 500 characters')
   } else {
     const res = await fetch(`${webUrl}/events`, {
       method: 'POST',
